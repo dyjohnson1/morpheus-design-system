@@ -1,0 +1,54 @@
+{
+  "morph": {
+    "space": {
+      "0": { "value": "0" }, "1": { "value": "4px" }, "2": { "value": "8px" },
+      "3": { "value": "12px" }, "4": { "value": "16px" }, "5": { "value": "24px" },
+      "6": { "value": "32px" }, "7": { "value": "48px" }, "8": { "value": "64px" },
+      "9": { "value": "96px" }, "10": { "value": "128px" }
+    },
+    "radius": {
+      "0": { "value": "0" }, "1": { "value": "6px" }, "2": { "value": "10px" },
+      "3": { "value": "16px" }, "4": { "value": "24px" }, "full": { "value": "9999px" }
+    },
+    "motion": {
+      "duration": {
+        "t1": { "value": "80ms" }, "t2": { "value": "140ms" }, "t3": { "value": "220ms" },
+        "t4": { "value": "320ms" }, "t5": { "value": "480ms" }
+      },
+      "easing": {
+        "standard": { "value": "cubic-bezier(0.2,0,0.38,0.9)" },
+        "entrance": { "value": "cubic-bezier(0,0,0.38,0.9)" },
+        "exit":     { "value": "cubic-bezier(0.2,0,1,0.9)" }
+      },
+      "spring": {
+        "default": { "value": "response:0.4; damping:0.86" },
+        "press":   { "value": "response:0.28; damping:0.9" }
+      }
+    },
+    "type": {
+      "family": {
+        "ui":      { "value": "Inter, system-ui, sans-serif" },
+        "display": { "value": "Canela, Reckless, Georgia, serif" },
+        "mono":    { "value": "'Berkeley Mono', 'JetBrains Mono', monospace" }
+      },
+      "scale": {
+        "display":  { "size": "48px", "lh": "52px", "weight": "600", "tracking": "-0.02em" },
+        "headline": { "size": "32px", "lh": "38px", "weight": "600", "tracking": "-0.015em" },
+        "title":    { "size": "24px", "lh": "30px", "weight": "600", "tracking": "-0.01em" },
+        "subtitle": { "size": "18px", "lh": "26px", "weight": "500", "tracking": "-0.005em" },
+        "body":     { "size": "16px", "lh": "26px", "weight": "400", "tracking": "0" },
+        "body-sm":  { "size": "14px", "lh": "22px", "weight": "400", "tracking": "0" },
+        "label":    { "size": "13px", "lh": "16px", "weight": "500", "tracking": "0.01em" },
+        "caption":  { "size": "12px", "lh": "16px", "weight": "400", "tracking": "0.02em" }
+      }
+    },
+    "density": {
+      "comfortable": { "control": "44px", "row": "56px", "pad-x": "16px", "pad-y": "12px" },
+      "compact":     { "control": "32px", "row": "36px", "pad-x": "12px", "pad-y": "8px" }
+    },
+    "breakpoint": {
+      "xs": { "value": "0" }, "sm": { "value": "480px" }, "md": { "value": "768px" },
+      "lg": { "value": "1024px" }, "xl": { "value": "1440px" }, "2xl": { "value": "1920px" }
+    }
+  }
+}

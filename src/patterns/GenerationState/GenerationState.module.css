@@ -1,0 +1,153 @@
+/* GenerationState — AI generation status live region.
+ * Icon + text conveys state (never color alone). Pulsing indicator while generating.
+ * Token-first · density-aware · reduced-motion safe.
+ */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-on-surface-muted);
+  min-height: var(--morph-control-height, 44px);
+}
+
+/* ─── Content wrapper ────────────────────────────────────────────────────── */
+.content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+}
+
+/* ─── State indicator dot ────────────────────────────────────────────────── */
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--morph-radius-full);
+  background: currentColor;
+  flex: none;
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  line-height: 1;
+}
+
+/* ─── State colors (always paired with text label — never color alone) ──── */
+.root[data-state="generating"] {
+  color: var(--morph-color-accent-text);
+}
+
+.root[data-state="complete"] {
+  color: var(--morph-status-success-text);
+}
+
+.root[data-state="error"] {
+  color: var(--morph-status-danger-text);
+}
+
+.root[data-state="cancelled"] {
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Generating pulse animation (productive register, t3) ───────────────── */
+.root[data-state="generating"] .indicator {
+  animation: pulse 1.4s var(--morph-ease-standard) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+}
+
+/* ─── Progress bar ───────────────────────────────────────────────────────── */
+.progressTrack {
+  width: 80px;
+  height: 4px;
+  border-radius: var(--morph-radius-full);
+  background: var(--morph-color-border-subtle);
+  overflow: hidden;
+  flex: none;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: var(--morph-radius-full);
+  background: var(--morph-color-accent);
+  transition: width var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+/* ─── Cancel button ──────────────────────────────────────────────────────── */
+.cancelButton {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--morph-space-1) var(--morph-space-3);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  color: var(--morph-color-on-surface-muted);
+  background: var(--morph-color-surface-raised);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-md);
+  cursor: pointer;
+  min-height: 32px;
+  min-width: 32px;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.cancelButton:hover {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+}
+
+.cancelButton:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Density: compact ───────────────────────────────────────────────────── */
+.root[data-density="compact"] {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  min-height: var(--morph-control-height-compact, 32px);
+}
+
+.root[data-density="compact"] .indicator {
+  width: 6px;
+  height: 6px;
+}
+
+.root[data-density="compact"] .content {
+  gap: var(--morph-space-1);
+}
+
+.root[data-density="compact"] .cancelButton {
+  padding: var(--morph-space-1) var(--morph-space-2);
+  min-height: 24px;
+}
+
+.root[data-density="compact"] .progressTrack {
+  width: 60px;
+  height: 3px;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root .indicator {
+    animation: none;
+    opacity: 1;
+  }
+
+  .progressFill {
+    transition: none;
+  }
+}

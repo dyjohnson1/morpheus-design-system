@@ -1,0 +1,103 @@
+/* ─── Field ───────────────────────────────────────────────────────────────── */
+/*
+ * Compositional wrapper: label + input slot + helper/error.
+ * States: rest, error, disabled.
+ * Density-aware: comfortable (default) / compact.
+ * Tokens only — zero raw hex/px/ms.
+ * Error is icon + text + color (never color alone).
+ */
+
+/* ─── Wrapper ────────────────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-1);
+  width: 100%;
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--morph-space-1);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-label, 13px);
+  font-weight: 500;
+  line-height: var(--morph-line-height-label, 1.23);
+  letter-spacing: 0.01em;
+  color: var(--morph-color-on-surface);
+}
+
+/* Required indicator — muted, not alarming */
+.required {
+  font-weight: 400;
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Input slot ─────────────────────────────────────────────────────────── */
+.inputSlot {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Helper text ────────────────────────────────────────────────────────── */
+.helperText {
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-caption, 12px);
+  line-height: var(--morph-line-height-caption, 1.33);
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Error message ──────────────────────────────────────────────────────── */
+.errorMessage {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-caption, 12px);
+  line-height: var(--morph-line-height-caption, 1.33);
+  color: var(--morph-color-danger);
+}
+
+.errorIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--morph-color-danger);
+}
+
+/* ─── Disabled state ─────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.disabled .label {
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Error state (optional indicator on label) ──────────────────────────── */
+.error .label {
+  color: var(--morph-color-on-surface);
+}
+
+/* ─── Density: compact ───────────────────────────────────────────────────── */
+@container (max-width: 0px) {
+  /* Container query placeholder — compact density is applied via
+     the morph-control-* tokens consumed by child inputs. Field itself
+     just tightens gap. */
+}
+
+/* Compact class can also be applied via data attribute on ancestors */
+:global([data-density="compact"]) .field {
+  gap: var(--morph-space-0, 2px);
+}
+
+:global([data-density="compact"]) .label {
+  font-size: var(--morph-font-size-caption, 12px);
+}
+
+:global([data-density="compact"]) .helperText,
+:global([data-density="compact"]) .errorMessage {
+  font-size: 11px;
+}

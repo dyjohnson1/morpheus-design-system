@@ -1,0 +1,277 @@
+/* ─── SideNav base ──────────────────────────────────────────────────────────
+   Vertical navigation panel. Deference: chrome recedes, content leads.
+   Light as structure: active item via subtle surface tonality shift.
+──────────────────────────────────────────────────────────────────────────── */
+.sideNav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: var(--morph-sidenav-width, 240px);
+  background: var(--morph-color-surface);
+  border-right: 1px solid var(--morph-color-border-subtle);
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition:
+    width var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+/* ─── Collapsed state ──────────────────────────────────────────────────────── */
+.sideNav.collapsed {
+  width: var(--morph-sidenav-width-collapsed, 56px);
+}
+
+/* ─── Density ──────────────────────────────────────────────────────────────── */
+.comfortable {
+  padding: var(--morph-space-3) var(--morph-space-2);
+}
+
+.compact {
+  padding: var(--morph-space-2) var(--morph-space-1);
+}
+
+/* ─── Slots ────────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--morph-space-3) var(--morph-space-2);
+  flex: none;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-1);
+  flex: 1;
+  min-height: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  padding: var(--morph-space-3) var(--morph-space-2);
+  flex: none;
+  margin-top: auto;
+  border-top: 1px solid var(--morph-color-border-subtle);
+}
+
+/* ─── SideNavItem ──────────────────────────────────────────────────────────── */
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-3);
+  width: 100%;
+  min-height: var(--morph-control-height);
+  padding: var(--morph-space-2) var(--morph-space-3);
+  border-radius: var(--morph-radius-2);
+  border: none;
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body-sm, 14px);
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.item:hover:not(:disabled):not(.active) {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: -2px;
+}
+
+.item:active:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-color-surface-raised) 80%, var(--morph-color-accent) 20%);
+}
+
+.item:disabled,
+.item[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Active/selected — light as structure: subtle surface tonality shift */
+.item.active {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-accent-text);
+}
+
+/* ─── Collapsed item — icon-only ───────────────────────────────────────────── */
+.item.collapsed {
+  justify-content: center;
+  padding: var(--morph-space-2);
+}
+
+.item.collapsed .itemLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Item icon ────────────────────────────────────────────────────────────── */
+.itemIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.itemIcon :global(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+/* ─── Item label ───────────────────────────────────────────────────────────── */
+.itemLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── SideNavGroup ─────────────────────────────────────────────────────────── */
+.group {
+  display: flex;
+  flex-direction: column;
+  padding: var(--morph-space-1) 0;
+}
+
+.group + .group {
+  border-top: 1px solid var(--morph-color-border-subtle);
+  margin-top: var(--morph-space-1);
+  padding-top: var(--morph-space-2);
+}
+
+.groupTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--morph-space-1) var(--morph-space-3);
+  border: none;
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-caption, 12px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--morph-radius-1);
+  transition: color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.groupTrigger:hover {
+  color: var(--morph-color-on-surface);
+}
+
+.groupTrigger:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: -2px;
+}
+
+.groupHeading {
+  font-size: var(--morph-font-size-caption, 12px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--morph-color-on-surface-muted);
+  padding: var(--morph-space-1) var(--morph-space-3);
+}
+
+.groupTrigger .groupHeading {
+  padding: 0;
+}
+
+.groupChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* Radix Collapsible open state rotates chevron */
+[data-state="open"] > .groupChevron {
+  transform: rotate(0deg);
+}
+
+[data-state="closed"] > .groupChevron {
+  transform: rotate(-90deg);
+}
+
+.groupContent {
+  overflow: hidden;
+}
+
+.groupContent[data-state="open"] {
+  animation: slideDown var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+.groupContent[data-state="closed"] {
+  animation: slideUp var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+.groupItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-1);
+  padding-top: var(--morph-space-1);
+}
+
+/* ─── Motion ───────────────────────────────────────────────────────────────── */
+@keyframes slideDown {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sideNav {
+    transition: none;
+  }
+
+  .item {
+    transition: none;
+  }
+
+  .groupChevron {
+    transition: none;
+  }
+
+  .groupContent[data-state="open"],
+  .groupContent[data-state="closed"] {
+    animation: none;
+  }
+}

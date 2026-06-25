@@ -1,0 +1,138 @@
+/* StreamingText — AI streaming text pattern.
+ * Single live region, blinking cursor while streaming, "the reveal" on complete.
+ * Token-first · density-aware · reduced-motion safe.
+ */
+
+.root {
+  position: relative;
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  color: var(--morph-color-on-surface);
+  overflow: hidden;
+}
+
+/* ─── Content region ─────────────────────────────────────────────────────── */
+.content {
+  position: relative;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.text {
+  /* Text carries the content — no additional styling needed */
+}
+
+.endAnchor {
+  display: inline;
+}
+
+/* ─── Blinking cursor (CSS-only, no JS interval) ─────────────────────────── */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  margin-left: var(--morph-space-1);
+  background: var(--morph-color-on-surface);
+  border-radius: var(--morph-radius-full);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ─── Jump to end button ─────────────────────────────────────────────────── */
+.jumpToEnd {
+  position: sticky;
+  top: var(--morph-space-2);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  float: right;
+  padding: var(--morph-space-1) var(--morph-space-3);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  color: var(--morph-color-on-surface-muted);
+  background: var(--morph-color-surface-raised);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-md);
+  cursor: pointer;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.jumpToEnd:hover {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+}
+
+.jumpToEnd:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── The Reveal — completion luminance sweep (expressive, t5) ───────────── */
+.reveal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in srgb, var(--morph-color-neutral-0) 12%, transparent) 45%,
+    color-mix(in srgb, var(--morph-color-neutral-0) 6%, transparent) 55%,
+    transparent 100%
+  );
+  animation: revealSweep var(--morph-motion-t5) var(--morph-ease-entrance) forwards;
+  opacity: 0;
+}
+
+@keyframes revealSweep {
+  0% {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* ─── Density: compact ───────────────────────────────────────────────────── */
+.root[data-density="compact"] {
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+}
+
+.root[data-density="compact"] .jumpToEnd {
+  padding: var(--morph-space-1) var(--morph-space-2);
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+    opacity: 1;
+  }
+
+  .reveal {
+    /* Replace sweep with a simple fade — never gate function on motion */
+    animation: revealFade var(--morph-motion-t3) var(--morph-ease-standard) forwards;
+    transform: none;
+    background: color-mix(in srgb, var(--morph-color-neutral-0) 8%, transparent);
+  }
+
+  @keyframes revealFade {
+    0% { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+}

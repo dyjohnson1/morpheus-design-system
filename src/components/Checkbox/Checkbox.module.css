@@ -1,0 +1,163 @@
+/* ─── Checkbox ──────────────────────────────────────────────────────────── */
+/*
+ * Accessible checkbox with Radix primitive.
+ * States: unchecked, checked, indeterminate, hover, focus, disabled.
+ * Density: comfortable (20px box) / compact (16px box).
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: productive register (t2), transitions on background/border.
+ * Reduced-motion: transitions disabled.
+ */
+
+/* ─── Wrapper (label + checkbox inline) ──────────────────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+}
+
+/* ─── Root (the clickable box) ───────────────────────────────────────────── */
+.root {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-1);
+  background: transparent;
+  color: var(--morph-color-on-accent);
+  cursor: pointer;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    border-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* ─── Density sizes ──────────────────────────────────────────────────────── */
+.comfortable {
+  width: var(--morph-space-5, 20px);
+  height: var(--morph-space-5, 20px);
+}
+
+.compact {
+  width: var(--morph-space-4, 16px);
+  height: var(--morph-space-4, 16px);
+}
+
+/* ─── Hover ──────────────────────────────────────────────────────────────── */
+.root:hover:not(.disabled) {
+  border-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
+.root:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Checked / indeterminate state ──────────────────────────────────────── */
+.root[data-state="checked"],
+.root[data-state="indeterminate"] {
+  background-color: var(--morph-color-accent);
+  border-color: var(--morph-color-accent);
+}
+
+.root[data-state="checked"]:hover:not(.disabled),
+.root[data-state="indeterminate"]:hover:not(.disabled) {
+  background-color: var(--morph-color-accent);
+  border-color: var(--morph-color-accent);
+}
+
+/* ─── Disabled state ─────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Indicator (icon container) ─────────────────────────────────────────── */
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Check icon (visible only when checked) ─────────────────────────────── */
+.checkIcon {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity var(--morph-motion-t2) var(--morph-ease-standard),
+    transform var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.root[data-state="checked"] .checkIcon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ─── Dash icon (visible only when indeterminate) ────────────────────────── */
+.dashIcon {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  transform: scale(0.8);
+  transition:
+    opacity var(--morph-motion-t2) var(--morph-ease-standard),
+    transform var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.root[data-state="indeterminate"] .dashIcon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Hide check when indeterminate */
+.root[data-state="indeterminate"] .checkIcon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Hide dash when not indeterminate */
+.root[data-state="checked"] .dashIcon,
+.root[data-state="unchecked"] .dashIcon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Hide check when unchecked */
+.root[data-state="unchecked"] .checkIcon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body, 16px);
+  line-height: var(--morph-line-height-body, 1.625);
+  color: var(--morph-color-on-surface);
+  cursor: pointer;
+  user-select: none;
+}
+
+.labelDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .checkIcon,
+  .dashIcon {
+    transition: none;
+  }
+}

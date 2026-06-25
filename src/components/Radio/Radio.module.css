@@ -1,0 +1,136 @@
+/* ─── Radio ──────────────────────────────────────────────────────────────── */
+/*
+ * Accessible radio group with Radix primitive.
+ * States: unselected, selected, hover, focus, disabled.
+ * Density: comfortable (20px circle) / compact (16px circle).
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: productive register (t2), transitions on border-color and inner dot.
+ * Reduced-motion: transitions disabled.
+ */
+
+/* ─── Group layout ───────────────────────────────────────────────────────── */
+.group {
+  display: flex;
+  gap: var(--morph-space-3);
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+/* ─── Wrapper (radio + label inline) ─────────────────────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+}
+
+/* ─── Item (the clickable circle) ────────────────────────────────────────── */
+.item {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-full);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    border-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* ─── Density sizes ──────────────────────────────────────────────────────── */
+.comfortable {
+  width: var(--morph-space-5, 20px);
+  height: var(--morph-space-5, 20px);
+}
+
+.compact {
+  width: var(--morph-space-4, 16px);
+  height: var(--morph-space-4, 16px);
+}
+
+/* ─── Hover ──────────────────────────────────────────────────────────────── */
+.item:hover:not(.disabled) {
+  border-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
+.item:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Selected state ─────────────────────────────────────────────────────── */
+.item[data-state="checked"] {
+  border-color: var(--morph-color-accent);
+}
+
+.item[data-state="checked"]:hover:not(.disabled) {
+  border-color: var(--morph-color-accent);
+}
+
+/* ─── Disabled state ─────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Indicator (inner dot) ──────────────────────────────────────────────── */
+.indicator {
+  display: block;
+  border-radius: var(--morph-radius-full);
+  background-color: var(--morph-color-accent);
+  transform: scale(0);
+  transition:
+    transform var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* Inner dot sizes based on density — proportional to control size */
+.comfortable .indicator {
+  width: calc(var(--morph-space-2) + var(--morph-space-1) / 2);
+  height: calc(var(--morph-space-2) + var(--morph-space-1) / 2);
+}
+
+.compact .indicator {
+  width: var(--morph-space-2);
+  height: var(--morph-space-2);
+}
+
+/* Show indicator when checked */
+.item[data-state="checked"] .indicator {
+  transform: scale(1);
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body, 16px);
+  line-height: var(--morph-line-height-body, 1.625);
+  color: var(--morph-color-on-surface);
+  cursor: pointer;
+  user-select: none;
+}
+
+.labelDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+
+  .indicator {
+    transition: none;
+  }
+}

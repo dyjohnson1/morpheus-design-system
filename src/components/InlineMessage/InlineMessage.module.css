@@ -1,0 +1,145 @@
+/* ─── InlineMessage ────────────────────────────────────────────────────── */
+/*
+ * Contextual feedback displayed inline within page content.
+ * Variants: info · success · warning · error.
+ *
+ * Status is never conveyed by color alone — each variant renders
+ * a distinct icon + text content.
+ *
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: fade-in on mount (productive register, t2).
+ * Reduced-motion: no animation.
+ */
+
+/* ─── Root container ─────────────────────────────────────────────────────── */
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--morph-space-3);
+  padding: var(--morph-space-3) var(--morph-space-4);
+  border-radius: var(--morph-radius-2);
+  border: 1px solid var(--morph-color-border-subtle);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-on-surface);
+  background: var(--morph-color-surface-raised);
+  /* Productive motion — subtle fade in */
+  transition:
+    opacity var(--morph-motion-t2) var(--morph-ease-standard),
+    background-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* ─── Icon slot ──────────────────────────────────────────────────────────── */
+.icon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Content ────────────────────────────────────────────────────────────── */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Dismiss button ─────────────────────────────────────────────────────── */
+.dismiss {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--morph-control-height-compact, 32px);
+  height: var(--morph-control-height-compact, 32px);
+  min-width: 44px;
+  min-height: 44px;
+  margin: calc(-1 * var(--morph-space-2)) calc(-1 * var(--morph-space-2)) calc(-1 * var(--morph-space-2)) 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--morph-radius-2);
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.dismiss svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dismiss:hover {
+  background: color-mix(in srgb, var(--morph-color-on-surface) 8%, transparent);
+  color: var(--morph-color-on-surface);
+}
+
+.dismiss:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.dismiss:active {
+  background: color-mix(in srgb, var(--morph-color-on-surface) 12%, transparent);
+}
+
+/* ─── Variant: info ──────────────────────────────────────────────────────── */
+.info {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 8%, var(--morph-color-surface-raised));
+  border-color: color-mix(in srgb, var(--morph-color-accent-text) 20%, transparent);
+}
+
+.info .icon {
+  color: var(--morph-color-accent-text);
+}
+
+/* ─── Variant: success ───────────────────────────────────────────────────── */
+.success {
+  background: color-mix(in srgb, var(--morph-status-success-text) 8%, var(--morph-color-surface-raised));
+  border-color: color-mix(in srgb, var(--morph-status-success-text) 20%, transparent);
+}
+
+.success .icon {
+  color: var(--morph-status-success-text);
+}
+
+/* ─── Variant: warning ───────────────────────────────────────────────────── */
+.warning {
+  background: color-mix(in srgb, var(--morph-status-warning-text) 8%, var(--morph-color-surface-raised));
+  border-color: color-mix(in srgb, var(--morph-status-warning-text) 20%, transparent);
+}
+
+.warning .icon {
+  color: var(--morph-status-warning-text);
+}
+
+/* ─── Variant: error ─────────────────────────────────────────────────────── */
+.error {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 8%, var(--morph-color-surface-raised));
+  border-color: color-mix(in srgb, var(--morph-status-danger-text) 20%, transparent);
+}
+
+.error .icon {
+  color: var(--morph-status-danger-text);
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .dismiss {
+    transition: none;
+  }
+}

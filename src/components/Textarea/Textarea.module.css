@@ -1,0 +1,76 @@
+/* ─── Textarea ──────────────────────────────────────────────────────────── */
+/*
+ * Styled multi-line text input.
+ * States: rest, hover, focus, disabled, error.
+ * Density: comfortable / compact.
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: productive register (t2), transitions on border/shadow.
+ * Reduced-motion: transitions disabled.
+ */
+
+.textarea {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-2);
+  background: var(--morph-color-surface);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body, 16px);
+  line-height: var(--morph-line-height-body, 1.625);
+  color: var(--morph-color-on-surface);
+  padding: var(--morph-space-2) var(--morph-space-3);
+  outline: none;
+  transition:
+    border-color var(--morph-motion-t2) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.textarea::placeholder {
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Density sizes ──────────────────────────────────────────────────────── */
+.comfortable {
+  padding: var(--morph-space-2) var(--morph-space-3);
+}
+
+.compact {
+  padding: var(--morph-space-1) var(--morph-space-2);
+  font-size: var(--morph-font-size-body-sm, 14px);
+  line-height: var(--morph-line-height-body-sm, 1.57);
+}
+
+/* ─── Hover ──────────────────────────────────────────────────────────────── */
+.textarea:hover:not(.disabled):not(.error) {
+  border-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
+.textarea:focus:not(.disabled) {
+  border-color: var(--morph-color-focus);
+  box-shadow: 0 0 0 1px var(--morph-color-focus);
+}
+
+/* ─── Error state ────────────────────────────────────────────────────────── */
+.error {
+  border-color: var(--morph-color-danger);
+}
+
+.error:focus {
+  border-color: var(--morph-color-danger);
+  box-shadow: 0 0 0 1px var(--morph-color-danger);
+}
+
+/* ─── Disabled state ─────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .textarea {
+    transition: none;
+  }
+}

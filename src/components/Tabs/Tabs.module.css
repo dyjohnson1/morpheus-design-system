@@ -1,0 +1,163 @@
+/* ─── Tabs ─────────────────────────────────────────────────────────────────── */
+/*
+ * Content-area navigation with underline or contained variants.
+ * Motion: productive/t2 (140ms) indicator transition.
+ * Reduced-motion: instant transitions.
+ * Density: comfortable (44px trigger) / compact (32px trigger).
+ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.root[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+/* ─── TabsList ─────────────────────────────────────────────────────────────── */
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  border-bottom: 1px solid var(--morph-color-border-subtle);
+  position: relative;
+}
+
+.root[data-orientation="vertical"] .list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: 1px solid var(--morph-color-border-subtle);
+}
+
+/* ─── TabsTrigger ──────────────────────────────────────────────────────────── */
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--morph-space-2);
+  padding: 0 var(--morph-space-3);
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* Density — comfortable */
+.comfortable .trigger {
+  min-height: var(--morph-control-height);
+}
+
+/* Density — compact */
+.compact .trigger {
+  min-height: var(--morph-control-height-compact, 32px);
+  font-size: var(--morph-font-size-body-sm, 14px);
+}
+
+/* Hover */
+.trigger:hover:not(:disabled) {
+  color: var(--morph-color-on-surface);
+}
+
+/* Active/selected state */
+.trigger[data-state="active"] {
+  color: var(--morph-color-on-surface);
+}
+
+/* Underline indicator — active tab */
+.underline .trigger[data-state="active"]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--morph-color-accent);
+  border-radius: var(--morph-radius-full);
+  transition: opacity var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* Contained variant — active tab gets a raised surface */
+.contained .list {
+  border-bottom: none;
+  background: var(--morph-color-surface);
+  border-radius: var(--morph-radius-2);
+  padding: var(--morph-space-1);
+  gap: var(--morph-space-1);
+}
+
+.contained .trigger {
+  border-radius: var(--morph-radius-1);
+  padding: 0 var(--morph-space-3);
+}
+
+.contained .trigger[data-state="active"] {
+  background: var(--morph-color-surface-raised);
+  box-shadow: var(--morph-elevation-1);
+}
+
+/* Focus */
+.trigger:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: -2px;
+  border-radius: var(--morph-radius-1);
+}
+
+/* Disabled */
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Icon within trigger */
+.triggerIcon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.triggerIcon :global(svg) {
+  width: 18px;
+  height: 18px;
+}
+
+.triggerLabel {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ─── TabsContent ──────────────────────────────────────────────────────────── */
+
+.content {
+  padding-top: var(--morph-space-4);
+  outline: none;
+}
+
+.content:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+  border-radius: var(--morph-radius-1);
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger {
+    transition: none;
+  }
+
+  .underline .trigger[data-state="active"]::after {
+    transition: none;
+  }
+}

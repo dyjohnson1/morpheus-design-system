@@ -1,0 +1,124 @@
+/* ─── TextInput ────────────────────────────────────────────────────────── */
+/*
+ * Styled text input with leading/trailing icon slots.
+ * States: rest, hover, focus, active, disabled, error.
+ * Density: comfortable (44px) / compact (32px).
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: productive register (t2), transitions on border/shadow.
+ * Reduced-motion: transitions disabled.
+ */
+
+/* ─── Wrapper (positions icons relative to input) ────────────────────────── */
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-2);
+  background: var(--morph-color-surface);
+  transition:
+    border-color var(--morph-motion-t2) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* ─── Density sizes ──────────────────────────────────────────────────────── */
+.comfortable {
+  height: var(--morph-control-height-comfortable, 44px);
+}
+
+.compact {
+  height: var(--morph-control-height-compact, 32px);
+}
+
+/* ─── Hover ──────────────────────────────────────────────────────────────── */
+.wrapper:hover:not(.disabled):not(.error) {
+  border-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Focus-within ───────────────────────────────────────────────────────── */
+.wrapper:focus-within:not(.disabled) {
+  border-color: var(--morph-color-focus);
+  box-shadow: 0 0 0 1px var(--morph-color-focus);
+}
+
+/* ─── Error state ────────────────────────────────────────────────────────── */
+.error {
+  border-color: var(--morph-color-danger);
+}
+
+.error:focus-within {
+  border-color: var(--morph-color-danger);
+  box-shadow: 0 0 0 1px var(--morph-color-danger);
+}
+
+/* ─── Disabled state ─────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Input element ──────────────────────────────────────────────────────── */
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body, 16px);
+  line-height: var(--morph-line-height-body, 1.625);
+  color: var(--morph-color-on-surface);
+  padding: var(--morph-space-2) var(--morph-space-3);
+}
+
+.input::placeholder {
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* Adjust padding when icons present */
+.hasLeadingIcon .input {
+  padding-left: var(--morph-space-1);
+}
+
+.hasTrailingIcon .input {
+  padding-right: var(--morph-space-1);
+}
+
+/* Compact density: smaller font */
+.compact .input {
+  font-size: var(--morph-font-size-body-sm, 14px);
+  line-height: var(--morph-line-height-body-sm, 1.57);
+}
+
+/* ─── Icon slots ─────────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--morph-color-on-surface-muted);
+}
+
+.icon:first-child {
+  margin-left: var(--morph-space-3);
+}
+
+.icon:last-child {
+  margin-right: var(--morph-space-3);
+}
+
+.icon :global(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .wrapper {
+    transition: none;
+  }
+}

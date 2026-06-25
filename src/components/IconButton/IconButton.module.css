@@ -1,0 +1,131 @@
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border-radius: var(--morph-radius-2);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform var(--morph-motion-t1) var(--morph-ease-standard),
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    border-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.iconButton:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Size tiers ─────────────────────────────────────────────────────────────
+   sm  = compact (32px) — only use on data-dense surfaces
+   md  = comfortable (44px, default) — primary touch target
+   lg  = large (52px) — high-emphasis standalone actions
+   Touch targets never drop below 44px on touch modality (WCAG 2.2).
+──────────────────────────────────────────────────────────────────────────── */
+.sm {
+  width: 32px;
+  height: 32px;
+}
+.sm .icon :global(svg) {
+  width: 16px;
+  height: 16px;
+}
+
+.md {
+  width: var(--morph-control-height); /* 44px comfortable / 32px compact */
+  height: var(--morph-control-height);
+}
+.md .icon :global(svg) {
+  width: 20px;
+  height: 20px;
+}
+
+.lg {
+  width: 52px;
+  height: 52px;
+}
+.lg .icon :global(svg) {
+  width: 24px;
+  height: 24px;
+}
+
+/* ─── Variants ───────────────────────────────────────────────────────────────
+   Mirrors Button variants — one accent, plum as a light source, sparingly.
+──────────────────────────────────────────────────────────────────────────── */
+.primary {
+  background: var(--morph-color-accent);
+  color: var(--morph-color-on-accent);
+}
+.primary:hover:not(:disabled) {
+  background: var(--morph-color-accent-600, #684E87);
+}
+
+.secondary {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+  border-color: var(--morph-color-border-subtle);
+}
+.secondary:hover:not(:disabled) {
+  border-color: var(--morph-color-on-surface-muted);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--morph-color-on-surface);
+}
+.ghost:hover:not(:disabled) {
+  background: var(--morph-color-surface-raised);
+}
+
+.destructive {
+  background: transparent;
+  color: var(--morph-status-danger-text);
+  border-color: currentColor;
+}
+.destructive:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 12%, transparent);
+}
+
+/* ─── Icon slot ──────────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Loading dots (matches Button pattern) ──────────────────────────────── */
+.dots {
+  display: inline-flex;
+  gap: 3px;
+}
+.dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--morph-radius-full);
+  background: currentColor;
+  opacity: 0.5;
+  animation: morphPulse 1s var(--morph-ease-standard) infinite;
+}
+.dots i:nth-child(2) { animation-delay: 0.15s; }
+.dots i:nth-child(3) { animation-delay: 0.30s; }
+
+@keyframes morphPulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1;   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots i { animation: none; opacity: 0.7; }
+  .iconButton { transition: none; }
+}

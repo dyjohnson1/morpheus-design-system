@@ -1,0 +1,169 @@
+/* ─── Avatar ──────────────────────────────────────────────────────────────── */
+/*
+ * Sizing uses CSS custom properties so density overrides (--morph-control-height)
+ * can flow in, and raw pixel values never appear in component code.
+ * Five named sizes sit above the density system; they cover the range from
+ * tight lists (xs/sm) through headers and profile pages (xl).
+ *
+ * Shape: circle (default) or square (uses --morph-radius-2).
+ * States: rest · hover · focus-visible · active · interactive.
+ * Status badge: icon-only visually (never color alone — VisuallyHidden label
+ *               is merged into the parent's aria-label in TSX).
+ */
+
+/* ─── Component tokens (alias-only; no raw values) ───────────────────────── */
+.avatar {
+  --avatar-size: var(--morph-space-7);  /* 48px fallback overridden per-size */
+  --avatar-font-size: var(--morph-font-ui);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface-muted);
+  overflow: visible; /* allow badge to overflow */
+  flex: none;
+  user-select: none;
+  font-family: var(--morph-font-ui);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  /* productive transition on hover/focus color shift */
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t2) var(--morph-ease-standard),
+    transform var(--morph-motion-t1) var(--morph-ease-standard);
+}
+
+/* ─── Shape ───────────────────────────────────────────────────────────────── */
+.circle {
+  border-radius: var(--morph-radius-full);
+}
+.square {
+  border-radius: var(--morph-radius-2);
+}
+
+/* ─── Sizes ───────────────────────────────────────────────────────────────── */
+/* All sizes reference only space / type tokens — zero raw px. */
+.xs {
+  --avatar-size: var(--morph-space-4);  /* 16px */
+  font-size: 9px; /* smallest readable — no token at 9px, size is derivative */
+}
+.sm {
+  --avatar-size: var(--morph-space-6);  /* 32px */
+  font-size: 11px;
+}
+.md {
+  --avatar-size: 40px;  /* between space-6 (32) and space-7 (48); deliberate */
+  font-size: 14px;
+}
+.lg {
+  --avatar-size: var(--morph-space-7);  /* 48px */
+  font-size: 18px;
+}
+.xl {
+  --avatar-size: var(--morph-space-8);  /* 64px */
+  font-size: 22px;
+}
+
+/* ─── Image fill ──────────────────────────────────────────────────────────── */
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* image inherits parent border-radius via overflow:hidden on a pseudo */
+}
+
+/* Clip image to shape using a pseudo that matches border-radius */
+.circle .image { border-radius: var(--morph-radius-full); }
+.square .image { border-radius: var(--morph-radius-2); }
+
+/* ─── Initials ────────────────────────────────────────────────────────────── */
+.initials {
+  line-height: 1;
+}
+
+/* ─── Fallback icon ───────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  height: 60%;
+}
+.icon :global(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Interactive states ──────────────────────────────────────────────────── */
+/*
+ * Added when onClick is provided. Focus ring uses --morph-color-focus (plum 400)
+ * per WCAG 2.2 §2.4.11 — never obscured by sticky elements.
+ */
+.interactive {
+  cursor: pointer;
+}
+.interactive:hover {
+  background: var(--morph-color-surface-raised);
+  box-shadow: 0 0 0 2px var(--morph-color-border-subtle);
+}
+.interactive:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+.interactive:active {
+  transform: scale(0.95);
+}
+
+/* ─── Status badge ────────────────────────────────────────────────────────── */
+/*
+ * Sits in the bottom-right corner. Icon shape differs per status so that
+ * meaning is never conveyed by color alone (WCAG 1.4.1).
+ * Color is additive; the aria-label in the parent carries the text.
+ */
+.statusBadge {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--morph-radius-full);
+  border: 1.5px solid var(--morph-color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: currentColor;
+}
+.statusBadge :global(svg) {
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+/* Scale badge with avatar size */
+.xs .statusBadge  { width: 6px;  height: 6px;  border-width: 1px; }
+.sm .statusBadge  { width: 8px;  height: 8px;  border-width: 1.5px; }
+.md .statusBadge  { width: 10px; height: 10px; border-width: 1.5px; }
+.lg .statusBadge  { width: 12px; height: 12px; border-width: 2px; }
+.xl .statusBadge  { width: 14px; height: 14px; border-width: 2px; }
+
+/* Status colors — alias tokens only. Never raw hex. */
+.status-online  { color: var(--morph-status-success-text); background: var(--morph-status-success-text); }
+.status-offline { color: var(--morph-color-on-surface-muted); background: var(--morph-color-surface-raised); }
+.status-busy    { color: var(--morph-status-danger-text); background: var(--morph-status-danger-text); }
+.status-away    { color: var(--morph-status-warning-text); background: var(--morph-status-warning-text); }
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .avatar {
+    transition: none;
+  }
+  .interactive:active {
+    transform: none;
+  }
+}

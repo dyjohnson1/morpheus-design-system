@@ -1,0 +1,136 @@
+.root {
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface);
+  border-radius: var(--morph-radius-default);
+}
+
+/* ─── Trigger button ────────────────────────────────────────────────────── */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+  width: 100%;
+  padding: var(--morph-space-2) var(--morph-space-3);
+  border: none;
+  border-radius: var(--morph-radius-default);
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  font-family: inherit;
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  cursor: pointer;
+  min-height: var(--morph-control-height, 44px);
+  text-align: start;
+  transition:
+    background var(--morph-motion-duration-t2) var(--morph-ease-standard),
+    color var(--morph-motion-duration-t2) var(--morph-ease-standard);
+}
+
+.trigger:hover {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Chevron ───────────────────────────────────────────────────────────── */
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  flex: none;
+  transition: transform var(--morph-motion-duration-t3) var(--morph-ease-standard);
+}
+
+.chevron[data-expanded="true"] {
+  transform: rotate(90deg);
+}
+
+/* ─── Label ─────────────────────────────────────────────────────────────── */
+.label {
+  font-weight: 500;
+}
+
+/* ─── Thinking indicator ────────────────────────────────────────────────── */
+.indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--morph-radius-full);
+  background: var(--morph-color-accent-text);
+  flex: none;
+  animation: pulse 1.4s var(--morph-ease-standard) infinite;
+}
+
+.statusText {
+  font-size: var(--morph-font-size-caption);
+  color: var(--morph-color-accent-text);
+  font-style: italic;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ─── Content panel ─────────────────────────────────────────────────────── */
+.content {
+  overflow: hidden;
+}
+
+.content[hidden] {
+  display: none;
+}
+
+/* ─── Steps list ────────────────────────────────────────────────────────── */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: var(--morph-space-2) var(--morph-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-2);
+}
+
+.step {
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-on-surface-muted);
+  padding-left: var(--morph-space-3);
+  border-left: 2px solid var(--morph-color-border-subtle);
+}
+
+/* ─── Density ───────────────────────────────────────────────────────────── */
+.root[data-density="compact"] .trigger {
+  min-height: var(--morph-control-height-compact, 32px);
+  padding: var(--morph-space-1) var(--morph-space-2);
+  font-size: var(--morph-font-size-caption);
+}
+
+.root[data-density="compact"] .steps {
+  padding: var(--morph-space-1) var(--morph-space-3);
+  gap: var(--morph-space-1);
+}
+
+.root[data-density="compact"] .step {
+  font-size: var(--morph-font-size-caption);
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+
+  .indicator {
+    animation: none;
+    opacity: 1;
+  }
+
+  .trigger {
+    transition: none;
+  }
+}

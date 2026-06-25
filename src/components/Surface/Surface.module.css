@@ -1,0 +1,160 @@
+/* ─── Surface base ─────────────────────────────────────────────────────────── */
+.surface {
+  position: relative;
+  border-radius: var(--morph-radius-2);
+  color: var(--morph-color-on-surface);
+  transition:
+    background-color var(--morph-motion-t3) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+.surface[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Variant: flat ─────────────────────────────────────────────────────────── */
+/*  Tier 2 solid (always-present base) */
+.flat {
+  background: var(--morph-color-surface);
+  box-shadow: none;
+}
+
+/*  Tier 1: semi-opaque fill when backdrop-filter is supported */
+@supports (backdrop-filter: blur(1px)) {
+  .flat {
+    background: color-mix(in srgb, var(--morph-color-surface) 92%, transparent);
+  }
+}
+
+/*  Tier 0: full translucency on capable GPU */
+@supports (backdrop-filter: blur(16px)) {
+  .flat {
+    background: color-mix(in srgb, var(--morph-color-surface) 80%, transparent);
+    backdrop-filter: blur(4px) saturate(1.1);
+  }
+}
+
+/* Reduced transparency → force Tier 2 solid */
+@media (prefers-reduced-transparency: reduce) {
+  .flat {
+    background: var(--morph-color-surface) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ─── Variant: raised ───────────────────────────────────────────────────────── */
+/*  Tier 2 */
+.raised {
+  background: var(--morph-color-surface-raised);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 20%, transparent),
+    0 2px 8px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 16%, transparent);
+}
+
+/*  Tier 1 */
+@supports (backdrop-filter: blur(1px)) {
+  .raised {
+    background: color-mix(in srgb, var(--morph-color-surface-raised) 92%, transparent);
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 24%, transparent),
+      0 4px 12px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 20%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--morph-color-on-surface) 6%, transparent);
+  }
+}
+
+/*  Tier 0 */
+@supports (backdrop-filter: blur(16px)) {
+  .raised {
+    background: color-mix(in srgb, var(--morph-color-surface-raised) 78%, transparent);
+    backdrop-filter: blur(12px) saturate(1.15);
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 24%, transparent),
+      0 4px 16px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 24%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--morph-color-on-surface) 8%, transparent);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .raised {
+    background: var(--morph-color-surface-raised) !important;
+    backdrop-filter: none !important;
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 20%, transparent),
+      0 2px 8px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 16%, transparent) !important;
+  }
+}
+
+/* ─── Variant: overlay ──────────────────────────────────────────────────────── */
+/*  Tier 2 */
+.overlay {
+  background: var(--morph-color-surface-overlay);
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 32%, transparent),
+    0 12px 32px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 24%, transparent);
+}
+
+/*  Tier 1 */
+@supports (backdrop-filter: blur(1px)) {
+  .overlay {
+    background: color-mix(in srgb, var(--morph-color-surface-overlay) 88%, transparent);
+    box-shadow:
+      0 4px 12px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 36%, transparent),
+      0 12px 40px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 28%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--morph-color-on-surface) 8%, transparent);
+  }
+}
+
+/*  Tier 0 */
+@supports (backdrop-filter: blur(16px)) {
+  .overlay {
+    background: color-mix(in srgb, var(--morph-color-surface-overlay) 72%, transparent);
+    backdrop-filter: blur(20px) saturate(1.2);
+    box-shadow:
+      0 4px 12px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 40%, transparent),
+      0 16px 48px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 32%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--morph-color-on-surface) 10%, transparent);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .overlay {
+    background: var(--morph-color-surface-overlay) !important;
+    backdrop-filter: none !important;
+    box-shadow:
+      0 4px 12px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 32%, transparent),
+      0 12px 32px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 24%, transparent) !important;
+  }
+}
+
+/* ─── Elevation modifiers (stack on top of variant styles) ──────────────────── */
+/* elev-0: ground-flush, no shadow */
+.surface[data-elevation="0"] { box-shadow: none; }
+
+/* elev-2: slightly deeper shadow */
+.surface[data-elevation="2"] {
+  box-shadow:
+    0 2px 4px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 28%, transparent),
+    0 6px 16px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 20%, transparent);
+}
+
+/* elev-3 */
+.surface[data-elevation="3"] {
+  box-shadow:
+    0 4px 8px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 32%, transparent),
+    0 10px 24px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 24%, transparent);
+}
+
+/* elev-4 (overlay level) */
+.surface[data-elevation="4"] {
+  box-shadow:
+    0 8px 16px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 40%, transparent),
+    0 20px 48px color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 32%, transparent);
+}
+
+/* Reduced-motion: suppress transitions */
+@media (prefers-reduced-motion: reduce) {
+  .surface {
+    transition: none;
+  }
+}

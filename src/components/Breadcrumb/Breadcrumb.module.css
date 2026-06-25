@@ -1,0 +1,173 @@
+/* ─── Breadcrumb base ───────────────────────────────────────────────────────
+   Wayfinding navigation. Deference: chrome recedes, muted at rest.
+   Light as structure: current page via tonality shift.
+──────────────────────────────────────────────────────────────────────────── */
+.breadcrumb {
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── List ──────────────────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--morph-space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Density ──────────────────────────────────────────────────────────────── */
+.comfortable .list {
+  gap: var(--morph-space-2);
+}
+
+.compact .list {
+  gap: var(--morph-space-1);
+}
+
+.comfortable .item {
+  font-size: var(--morph-font-size-body-sm, 14px);
+  line-height: 1.4;
+}
+
+.compact .item {
+  font-size: var(--morph-font-size-caption, 12px);
+  line-height: 1.4;
+}
+
+/* ─── Item ──────────────────────────────────────────────────────────────────── */
+.item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ─── Link ──────────────────────────────────────────────────────────────────── */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  color: var(--morph-color-on-surface-muted);
+  text-decoration: none;
+  border-radius: var(--morph-radius-1);
+  padding: var(--morph-space-1) var(--morph-space-1);
+  min-height: var(--morph-space-6, 24px);
+  cursor: pointer;
+  transition:
+    color var(--morph-motion-t2) var(--morph-ease-standard),
+    background-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.link:hover {
+  color: var(--morph-color-on-surface);
+  background: var(--morph-color-surface-raised);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.link:active {
+  opacity: 0.75;
+}
+
+/* ─── Text (current page, non-interactive) ─────────────────────────────────── */
+.text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  padding: var(--morph-space-1) var(--morph-space-1);
+  min-height: var(--morph-space-6, 24px);
+}
+
+.current .text {
+  color: var(--morph-color-on-surface);
+  font-weight: 500;
+}
+
+/* ─── Item icon ────────────────────────────────────────────────────────────── */
+.itemIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.itemIcon :global(svg) {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─── Item label ───────────────────────────────────────────────────────────── */
+.itemLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* ─── Separator ────────────────────────────────────────────────────────────── */
+.separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--morph-color-on-surface-muted);
+  opacity: 0.6;
+  flex: none;
+}
+
+.separator :global(svg) {
+  width: 14px;
+  height: 14px;
+}
+
+/* ─── Ellipsis (collapse button) ───────────────────────────────────────────── */
+.ellipsisItem {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ellipsisButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--morph-space-6, 24px);
+  min-height: var(--morph-space-6, 24px);
+  padding: var(--morph-space-1);
+  border: none;
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body, 16px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border-radius: var(--morph-radius-1);
+  cursor: pointer;
+  transition:
+    color var(--morph-motion-t2) var(--morph-ease-standard),
+    background-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.ellipsisButton:hover {
+  color: var(--morph-color-on-surface);
+  background: var(--morph-color-surface-raised);
+}
+
+.ellipsisButton:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.ellipsisButton:active {
+  opacity: 0.75;
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .ellipsisButton {
+    transition: none;
+  }
+}

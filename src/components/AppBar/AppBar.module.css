@@ -1,0 +1,133 @@
+/* ─── AppBar base ───────────────────────────────────────────────────────────
+   Top-level navigation chrome. Deference: subtle surface, content leads.
+   Light as structure: tonality + soft shadow, not borders.
+──────────────────────────────────────────────────────────────────────────── */
+.appBar {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-3);
+  width: 100%;
+  padding: 0 var(--morph-space-5);
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface);
+  z-index: 10;
+  transition:
+    background-color var(--morph-motion-t3) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+/* ─── Positioning ──────────────────────────────────────────────────────────── */
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.static {
+  position: static;
+}
+
+/* ─── Density ──────────────────────────────────────────────────────────────── */
+.comfortable {
+  min-height: var(--morph-space-14, 56px);
+}
+
+.compact {
+  min-height: var(--morph-control-height);
+}
+
+/* ─── Variant: surface ─────────────────────────────────────────────────────── */
+/* Tier 2 solid (always-present base) */
+.surface {
+  background: var(--morph-color-surface);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--morph-color-neutral-1000, #0C1119) 12%, transparent);
+}
+
+/* Tier 1: semi-opaque fill when backdrop-filter supported */
+@supports (backdrop-filter: blur(1px)) {
+  .surface {
+    background: color-mix(in srgb, var(--morph-color-surface) 90%, transparent);
+    backdrop-filter: blur(8px) saturate(1.1);
+  }
+}
+
+/* Tier 0: full translucency on capable GPU */
+@supports (backdrop-filter: blur(16px)) {
+  .surface {
+    background: color-mix(in srgb, var(--morph-color-surface) 78%, transparent);
+    backdrop-filter: blur(12px) saturate(1.15);
+  }
+}
+
+/* Reduced transparency → force Tier 2 solid */
+@media (prefers-reduced-transparency: reduce) {
+  .surface {
+    background: var(--morph-color-surface) !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ─── Variant: transparent ─────────────────────────────────────────────────── */
+.transparent {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ─── Slots ────────────────────────────────────────────────────────────────── */
+.leading {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.title {
+  font-size: var(--morph-font-size-subtitle, 18px);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: none;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.trailing {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+  flex: none;
+  margin-left: auto;
+}
+
+/* If no content slot, push trailing to the right */
+.appBar:not(:has(.content)) .trailing {
+  margin-left: auto;
+}
+
+/* ─── Focus within — ensure focus-not-obscured for sticky/fixed ────────────── */
+.sticky:focus-within,
+.fixed:focus-within {
+  /* Ensure the bar itself doesn't trap focus visually */
+  z-index: 10;
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .appBar {
+    transition: none;
+  }
+}

@@ -1,0 +1,129 @@
+/* ─── EmptyState ────────────────────────────────────────────────────────── */
+/*
+ * Centered placeholder for empty views/sections.
+ * Provides warm guidance and optional actions.
+ *
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: fade-in on mount (productive register, t3).
+ * Reduced-motion: no animation.
+ * Density: comfortable (default) / compact.
+ */
+
+/* ─── Root container ─────────────────────────────────────────────────────── */
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--morph-space-8) var(--morph-space-5);
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface);
+  /* Productive motion — subtle fade in */
+  animation: emptyStateFadeIn var(--morph-motion-t3) var(--morph-ease-entrance) both;
+}
+
+@keyframes emptyStateFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Icon slot ──────────────────────────────────────────────────────────── */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--morph-space-4);
+  color: var(--morph-color-on-surface-muted);
+}
+
+.icon :global(svg) {
+  width: 48px;
+  height: 48px;
+}
+
+/* ─── Heading ────────────────────────────────────────────────────────────── */
+.heading {
+  margin: 0 0 var(--morph-space-2) 0;
+  font-size: var(--morph-font-size-subtitle);
+  line-height: var(--morph-line-height-subtitle);
+  font-weight: 500;
+  color: var(--morph-color-on-surface);
+}
+
+/* ─── Description ────────────────────────────────────────────────────────── */
+.description {
+  margin: 0 0 var(--morph-space-5) 0;
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  color: var(--morph-color-on-surface-muted);
+  max-width: 40ch;
+}
+
+/* ─── Actions slot ───────────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ─── Size: comfortable (default) ────────────────────────────────────────── */
+.comfortable {
+  padding: var(--morph-space-8) var(--morph-space-5);
+}
+
+.comfortable .icon :global(svg) {
+  width: 48px;
+  height: 48px;
+}
+
+.comfortable .heading {
+  font-size: var(--morph-font-size-subtitle);
+  line-height: var(--morph-line-height-subtitle);
+}
+
+.comfortable .description {
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+}
+
+/* ─── Size: compact ──────────────────────────────────────────────────────── */
+.compact {
+  padding: var(--morph-space-5) var(--morph-space-4);
+}
+
+.compact .icon {
+  margin-bottom: var(--morph-space-3);
+}
+
+.compact .icon :global(svg) {
+  width: 32px;
+  height: 32px;
+}
+
+.compact .heading {
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  margin-bottom: var(--morph-space-1);
+}
+
+.compact .description {
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  margin-bottom: var(--morph-space-4);
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation: none;
+  }
+}

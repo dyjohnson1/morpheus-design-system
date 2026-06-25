@@ -1,0 +1,54 @@
+.button {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--morph-space-2);
+  min-height: var(--morph-control-height);
+  padding: 0 var(--morph-control-pad-x);
+  border-radius: var(--morph-radius-2);
+  border: 1px solid transparent;
+  font-family: var(--morph-font-ui);
+  font-size: 16px; font-weight: 500; line-height: 1; letter-spacing: 0;
+  cursor: pointer;
+  transition: transform var(--morph-motion-t1) var(--morph-ease-standard),
+              background-color var(--morph-motion-t2) var(--morph-ease-standard),
+              border-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+.button:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+.button:active:not(:disabled) { transform: scale(0.98); }
+.button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* one accent — primary only (Deference) */
+.primary { background: var(--morph-color-accent); color: var(--morph-color-on-accent); }
+.primary:hover:not(:disabled) { background: var(--morph-color-accent-600, #684E87); }
+
+.secondary {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+  border-color: var(--morph-color-border-subtle);
+}
+.secondary:hover:not(:disabled) { border-color: var(--morph-color-on-surface-muted); }
+
+.ghost { background: transparent; color: var(--morph-color-on-surface); }
+.ghost:hover:not(:disabled) { background: var(--morph-color-surface-raised); }
+
+.destructive { background: transparent; color: var(--morph-status-danger-text); border-color: currentColor; }
+.destructive:hover:not(:disabled) { background: color-mix(in srgb, var(--morph-status-danger-text) 12%, transparent); }
+
+.icon, .label { display: inline-flex; align-items: center; }
+.icon :global(svg) { width: 20px; height: 20px; }
+
+/* quiet busy state — three soft pulsing dots, not a spinner */
+.dots { display: inline-flex; gap: 4px; }
+.dots i {
+  width: 5px; height: 5px; border-radius: var(--morph-radius-full);
+  background: currentColor; opacity: 0.5;
+  animation: morphPulse 1s var(--morph-ease-standard) infinite;
+}
+.dots i:nth-child(2) { animation-delay: 0.15s; }
+.dots i:nth-child(3) { animation-delay: 0.30s; }
+@keyframes morphPulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .dots i { animation: none; opacity: 0.7; }
+}

@@ -1,0 +1,37 @@
+.root {
+  display: inline-flex; align-items: center; gap: var(--morph-space-2);
+  font-family: var(--morph-font-ui); font-size: 14px;
+  color: var(--morph-color-on-surface-muted);
+}
+.dot {
+  width: 8px; height: 8px; border-radius: var(--morph-radius-full);
+  background: currentColor; flex: none;
+}
+.label { line-height: 1; }
+
+/* color = meaning (never color alone — the label carries it too) */
+.root[data-state="thinking"] { color: var(--morph-color-accent-text); }
+.root[data-state="acting"]   { color: var(--morph-color-accent-text); }
+.root[data-state="waiting-on-you"] { color: var(--morph-status-warning-text); }
+.root[data-state="done"]  { color: var(--morph-status-success-text); }
+.root[data-state="error"] { color: var(--morph-status-danger-text); }
+
+/* thinking = slow breathing pulse; idle = stillness */
+.root[data-state="thinking"] .dot {
+  animation: breathe 1.6s var(--morph-ease-standard) infinite;
+}
+.root[data-state="acting"] .dot {
+  animation: breathe 1s var(--morph-ease-standard) infinite;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1);   opacity: 0.6; }
+  50%     { transform: scale(1.5); opacity: 1;   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .root .dot { animation: none; opacity: 1; }
+}
+
+.srOnly {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

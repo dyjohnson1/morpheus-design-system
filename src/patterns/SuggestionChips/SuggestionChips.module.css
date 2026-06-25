@@ -1,0 +1,175 @@
+/*
+ * SuggestionChips — AI suggestion pattern
+ *
+ * Horizontal chip group that suggests prompts/actions.
+ * Wraps when space is limited (flex-wrap).
+ *
+ * States: rest / hover / focus / active / disabled / loading
+ * Density: comfortable (44px min-height) / compact (32px min-height)
+ * Motion: staggered entrance (t1/item, max 5 then batch); reduced-motion safe
+ *
+ * Tokens only — zero raw hex/px/ms.
+ */
+
+/* ─── Group root ─────────────────────────────────────────────────────────── */
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--morph-space-2);
+  align-items: center;
+}
+
+/* ─── Density ────────────────────────────────────────────────────────────── */
+.comfortable {
+  gap: var(--morph-space-2);
+}
+
+.compact {
+  gap: var(--morph-space-1);
+}
+
+/* ─── Disabled group ─────────────────────────────────────────────────────── */
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ─── Chip button ────────────────────────────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  border-radius: var(--morph-radius-full);
+  border: 1px solid var(--morph-color-border-subtle);
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+  font-family: var(--morph-font-ui);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+  /* Productive motion — t2 on color/border */
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    border-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard),
+    transform var(--morph-motion-t1) var(--morph-ease-standard),
+    opacity var(--morph-motion-t2) var(--morph-ease-standard);
+  /* Stagger entrance animation */
+  animation: chipEntrance var(--morph-motion-t3) var(--morph-ease-entrance) both;
+  animation-delay: calc(var(--chip-index, 0) * var(--morph-motion-t1));
+}
+
+/* Density sizing */
+.comfortable .chip {
+  padding: var(--morph-space-2) var(--morph-space-3);
+  font-size: 14px;
+  line-height: 1.4;
+  min-height: 44px;
+}
+
+.compact .chip {
+  padding: var(--morph-space-1) var(--morph-space-2);
+  font-size: 13px;
+  line-height: 1.4;
+  min-height: 32px;
+}
+
+/* ─── States ─────────────────────────────────────────────────────────────── */
+.chip:hover:not(:disabled) {
+  border-color: var(--morph-color-on-surface-muted);
+  background: color-mix(
+    in srgb,
+    var(--morph-color-surface-raised) 90%,
+    var(--morph-color-on-surface) 10%
+  );
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.chip:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ─── Disabled chip ──────────────────────────────────────────────────────── */
+.chipDisabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Icon slot ──────────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.icon :global(svg) {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  line-height: 1;
+}
+
+/* ─── Skeleton (loading) ─────────────────────────────────────────────────── */
+.skeleton {
+  border-color: transparent;
+  background: var(--morph-color-surface-raised);
+  width: 120px;
+  pointer-events: none;
+  animation: shimmer 1.4s var(--morph-ease-standard) infinite;
+}
+
+.comfortable .skeleton {
+  height: 44px;
+}
+
+.compact .skeleton {
+  height: 32px;
+}
+
+/* ─── Entrance animation ─────────────────────────────────────────────────── */
+@keyframes chipEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Skeleton shimmer ───────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    animation: none;
+    transition: none;
+  }
+  .skeleton {
+    animation: none;
+    opacity: 0.6;
+  }
+}

@@ -1,0 +1,182 @@
+.root {
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface);
+  background: var(--morph-color-surface-raised);
+  border-radius: var(--morph-radius-default);
+  padding: var(--morph-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-3);
+  transition:
+    background var(--morph-motion-duration-t2) var(--morph-ease-standard);
+}
+
+/* ─── Status (icon + text — never color alone) ──────────────────────────── */
+.statusRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+  flex: none;
+}
+
+.statusIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.statusText {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  font-weight: 500;
+}
+
+/* Status color variants */
+.root[data-status="pending"] .statusRow {
+  color: var(--morph-color-accent-text);
+}
+
+.root[data-status="approved"] .statusRow {
+  color: var(--morph-status-success-text);
+}
+
+.root[data-status="modified"] .statusRow {
+  color: var(--morph-color-on-surface-muted);
+}
+
+.root[data-status="rejected"] .statusRow {
+  color: var(--morph-status-danger-text);
+}
+
+/* ─── Action text ───────────────────────────────────────────────────────── */
+.action {
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  font-weight: 500;
+}
+
+/* ─── Rationale ─────────────────────────────────────────────────────────── */
+.rationale {
+  margin: 0;
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Action buttons group ──────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: var(--morph-space-2);
+  flex-wrap: wrap;
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--morph-space-2);
+  padding: var(--morph-space-2) var(--morph-space-4);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-default);
+  background: transparent;
+  color: var(--morph-color-on-surface);
+  font-family: inherit;
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  transition:
+    background var(--morph-motion-duration-t2) var(--morph-ease-standard),
+    color var(--morph-motion-duration-t2) var(--morph-ease-standard),
+    border-color var(--morph-motion-duration-t2) var(--morph-ease-standard);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--morph-color-surface);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.btn:active:not(:disabled) {
+  background: var(--morph-color-surface-raised);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Approve button accent */
+.btnApprove:not(:disabled) {
+  border-color: var(--morph-status-success-text);
+  color: var(--morph-status-success-text);
+}
+
+.btnApprove:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-status-success-text) 10%, transparent);
+}
+
+/* Modify button */
+.btnModify:not(:disabled) {
+  border-color: var(--morph-color-on-surface-muted);
+  color: var(--morph-color-on-surface);
+}
+
+/* Reject button */
+.btnReject:not(:disabled) {
+  border-color: var(--morph-status-danger-text);
+  color: var(--morph-status-danger-text);
+}
+
+.btnReject:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 10%, transparent);
+}
+
+/* ─── Button icon ───────────────────────────────────────────────────────── */
+.btnIcon {
+  flex: none;
+}
+
+/* ─── Density ───────────────────────────────────────────────────────────── */
+.root[data-density="compact"] {
+  padding: var(--morph-space-3);
+  gap: var(--morph-space-2);
+}
+
+.root[data-density="compact"] .action {
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+}
+
+.root[data-density="compact"] .rationale {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+}
+
+.root[data-density="compact"] .btn {
+  padding: var(--morph-space-1) var(--morph-space-3);
+  font-size: var(--morph-font-size-caption);
+  min-height: 44px;
+}
+
+.root[data-density="compact"] .actions {
+  gap: var(--morph-space-1);
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .btn {
+    transition: none;
+  }
+}

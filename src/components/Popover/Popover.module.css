@@ -1,0 +1,147 @@
+/* ─── Popover ─────────────────────────────────────────────────────────────── */
+/*
+ * Floating content panel anchored to a trigger.
+ * Built on Radix Popover for collision-aware positioning + accessible dismiss.
+ *
+ * Surface: overlay material with subtle border, elevation-2 shadow.
+ * Entrance: productive/t3 (220ms) — scale from 0.96 + fade.
+ * Exit: t2 (140ms) — fade out only.
+ * Reduced-motion: simple fade at t2, no transform.
+ *
+ * Tokens only — zero raw hex/px/ms.
+ */
+
+.content {
+  /* Surface */
+  background: var(--morph-color-surface-overlay);
+  color: var(--morph-color-on-surface);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-2);
+
+  /* Elevation */
+  box-shadow: var(--morph-elevation-2);
+
+  /* Spacing */
+  padding: var(--morph-space-4);
+  min-width: 180px;
+  max-width: 320px;
+
+  /* Typography */
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+
+  /* Animation — productive/t3 entrance */
+  animation-duration: var(--morph-motion-t3);
+  animation-timing-function: var(--morph-ease-entrance);
+  animation-fill-mode: forwards;
+
+  /* Performance hint */
+  will-change: transform, opacity;
+}
+
+/* ─── Entrance animation ──────────────────────────────────────────────────── */
+.content[data-state="open"] {
+  animation-name: popoverEnter;
+}
+
+/* ─── Exit animation ──────────────────────────────────────────────────────── */
+.content[data-state="closed"] {
+  animation-name: popoverExit;
+  animation-duration: var(--morph-motion-t2);
+  animation-timing-function: var(--morph-ease-exit);
+}
+
+/* ─── Origin-aware scale (side-based) ─────────────────────────────────────── */
+.content[data-side="top"] {
+  transform-origin: bottom center;
+}
+
+.content[data-side="bottom"] {
+  transform-origin: top center;
+}
+
+.content[data-side="left"] {
+  transform-origin: right center;
+}
+
+.content[data-side="right"] {
+  transform-origin: left center;
+}
+
+@keyframes popoverEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popoverExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* ─── Arrow ───────────────────────────────────────────────────────────────── */
+.arrow {
+  fill: var(--morph-color-surface-overlay);
+}
+
+/* ─── Focus within content ────────────────────────────────────────────────── */
+.content:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    animation: none;
+  }
+
+  .content[data-state="open"] {
+    animation-name: popoverFadeIn;
+    animation-duration: var(--morph-motion-t2);
+    animation-timing-function: var(--morph-ease-standard);
+  }
+
+  .content[data-state="closed"] {
+    animation-name: popoverFadeOut;
+    animation-duration: var(--morph-motion-t2);
+    animation-timing-function: var(--morph-ease-standard);
+  }
+}
+
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popoverFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ─── Reduced-transparency ────────────────────────────────────────────────── */
+@media (prefers-reduced-transparency: reduce) {
+  .content {
+    background: var(--morph-color-surface-raised);
+  }
+}

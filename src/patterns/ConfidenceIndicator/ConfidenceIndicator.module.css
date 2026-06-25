@@ -1,0 +1,44 @@
+/* ─── ConfidenceIndicator ─────────────────────────────────────────────────── */
+/*
+ * Purely textual, muted display. NEVER uses alarm/status/danger colors.
+ * All values from alias tokens. Density-aware via data-density attribute.
+ */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Density ────────────────────────────────────────────────────────────── */
+.root[data-density="comfortable"] {
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+}
+
+.root[data-density="compact"] {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+}
+
+/* ─── Icon ───────────────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  color: currentColor;
+}
+
+.icon :global(svg) {
+  width: 1em;
+  height: 1em;
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  line-height: inherit;
+}

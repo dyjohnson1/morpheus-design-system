@@ -1,0 +1,240 @@
+/* ─── Select ───────────────────────────────────────────────────────────── */
+/*
+ * Accessible dropdown (Radix Select) styled to match TextInput.
+ * States: rest, hover, focus, open, disabled, error.
+ * Density: comfortable (44px) / compact (32px).
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: productive/t2 entrance (scale + fade), t1 exit (fade).
+ * Reduced-motion: instant, no scale.
+ */
+
+/* ─── Trigger ─────────────────────────────────────────────────────────────── */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-2);
+  background: var(--morph-color-surface);
+  color: var(--morph-color-on-surface);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  padding: var(--morph-space-2) var(--morph-space-3);
+  cursor: pointer;
+  outline: none;
+  gap: var(--morph-space-2);
+  transition:
+    border-color var(--morph-motion-t2) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* ─── Density ─────────────────────────────────────────────────────────────── */
+.comfortable {
+  height: var(--morph-control-height-comfortable, 44px);
+}
+
+.compact {
+  height: var(--morph-control-height-compact, 32px);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+}
+
+/* ─── Placeholder text ────────────────────────────────────────────────────── */
+.trigger[data-placeholder] > span:first-child {
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Hover ───────────────────────────────────────────────────────────────── */
+.trigger:hover:not(.disabled):not(.error) {
+  border-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Focus ───────────────────────────────────────────────────────────────── */
+.trigger:focus:not(.disabled),
+.trigger[data-state="open"]:not(.disabled) {
+  border-color: var(--morph-color-focus);
+  box-shadow: 0 0 0 1px var(--morph-color-focus);
+}
+
+/* ─── Error ───────────────────────────────────────────────────────────────── */
+.error {
+  border-color: var(--morph-color-danger);
+}
+
+.error:focus,
+.error[data-state="open"] {
+  border-color: var(--morph-color-danger);
+  box-shadow: 0 0 0 1px var(--morph-color-danger);
+}
+
+/* ─── Disabled ────────────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ─── Chevron icon ────────────────────────────────────────────────────────── */
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  color: var(--morph-color-on-surface-muted);
+  transition: transform var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.trigger[data-state="open"] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ─── Content panel (dropdown) ────────────────────────────────────────────── */
+.content {
+  overflow: hidden;
+  background: var(--morph-color-surface-overlay);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-2);
+  box-shadow: var(--morph-elevation-3);
+  z-index: 50;
+
+  /* Animation — productive/t2 entrance */
+  animation-duration: var(--morph-motion-t2);
+  animation-timing-function: var(--morph-ease-entrance);
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+/* ─── Entrance animation ──────────────────────────────────────────────────── */
+.content[data-state="open"] {
+  animation-name: selectEnter;
+}
+
+/* ─── Exit animation ──────────────────────────────────────────────────────── */
+.content[data-state="closed"] {
+  animation-name: selectExit;
+  animation-duration: var(--morph-motion-t1);
+  animation-timing-function: var(--morph-ease-exit);
+}
+
+@keyframes selectEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes selectExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* ─── Viewport ────────────────────────────────────────────────────────────── */
+.viewport {
+  padding: var(--morph-space-1);
+}
+
+/* ─── Scroll buttons ──────────────────────────────────────────────────────── */
+.scrollButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--morph-space-5);
+  color: var(--morph-color-on-surface-muted);
+  cursor: default;
+}
+
+/* ─── Item ────────────────────────────────────────────────────────────────── */
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--morph-space-2) var(--morph-space-3);
+  padding-right: var(--morph-space-6);
+  border-radius: var(--morph-radius-1);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  color: var(--morph-color-on-surface);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition: background var(--morph-motion-t1) var(--morph-ease-standard);
+}
+
+/* ─── Item: highlighted (focused via keyboard/pointer) ────────────────────── */
+.item[data-highlighted] {
+  background: var(--morph-color-surface-raised);
+  outline: none;
+}
+
+/* ─── Item: selected ──────────────────────────────────────────────────────── */
+.item[data-state="checked"] {
+  background: color-mix(in srgb, var(--morph-color-accent) 12%, transparent);
+}
+
+/* ─── Item: disabled ──────────────────────────────────────────────────────── */
+.item[data-disabled] {
+  color: var(--morph-color-on-surface-muted);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Item indicator (check mark) ─────────────────────────────────────────── */
+.itemIndicator {
+  position: absolute;
+  right: var(--morph-space-2);
+  display: inline-flex;
+  align-items: center;
+  color: var(--morph-color-accent);
+}
+
+/* ─── Group label ─────────────────────────────────────────────────────────── */
+.groupLabel {
+  padding: var(--morph-space-2) var(--morph-space-3);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-label);
+  line-height: var(--morph-line-height-label);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Separator ───────────────────────────────────────────────────────────── */
+.separator {
+  height: 1px;
+  margin: var(--morph-space-1) var(--morph-space-2);
+  background: var(--morph-color-border-subtle);
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .chevron,
+  .item {
+    transition: none;
+  }
+
+  .content {
+    animation: none;
+  }
+
+  .content[data-state="open"] {
+    animation: none;
+    opacity: 1;
+  }
+
+  .content[data-state="closed"] {
+    animation: none;
+    opacity: 0;
+  }
+}

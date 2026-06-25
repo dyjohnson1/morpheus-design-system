@@ -1,0 +1,136 @@
+/* ─── Divider ──────────────────────────────────────────────────────────────
+ *
+ * A structural separator between content sections.
+ * Three variants (subtle · default · strong) map to border-color token steps.
+ * Spacing variants control margin around the divider.
+ * No motion — static structural element.
+ * Tokens only — zero raw hex/px/ms.
+ * ─────────────────────────────────────────────────────────────────────────── */
+
+/* ─── Base ────────────────────────────────────────────────────────────────── */
+.divider {
+  /* Reset <hr> browser defaults */
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* ─── Horizontal (default) ────────────────────────────────────────────────── */
+.horizontal {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--morph-color-border-subtle);
+}
+
+/* ─── Vertical ────────────────────────────────────────────────────────────── */
+.vertical {
+  display: inline-block;
+  width: 1px;
+  /* Height defers to the flex/grid container; set a fallback via min-height */
+  height: auto;
+  min-height: 1em;
+  align-self: stretch;
+  background-color: var(--morph-color-border-subtle);
+}
+
+/* ─── Variants ────────────────────────────────────────────────────────────── */
+/*
+ * "subtle"  — one step lighter than default (muted presence)
+ * "default" — the standard border-subtle token
+ * "strong"  — one step more prominent (on-surface-muted tone)
+ */
+.subtle {
+  /* Derive a lighter tone via color-mix — keeps zero raw hex */
+  background-color: color-mix(
+    in srgb,
+    var(--morph-color-border-subtle) 50%,
+    transparent
+  );
+}
+
+/* .default already covered by .horizontal / .vertical base background */
+
+.strong {
+  background-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Spacing variants ────────────────────────────────────────────────────── */
+/*
+ * Applied as symmetric block-margin on horizontal dividers
+ * and inline-margin on vertical dividers.
+ * "none" → no margin (composed layout takes over).
+ */
+.horizontal.spacing-none  { margin-block: 0; }
+.horizontal.spacing-sm    { margin-block: var(--morph-space-2); }
+.horizontal.spacing-md    { margin-block: var(--morph-space-4); }
+.horizontal.spacing-lg    { margin-block: var(--morph-space-5); }
+
+.vertical.spacing-none    { margin-inline: 0; }
+.vertical.spacing-sm      { margin-inline: var(--morph-space-2); }
+.vertical.spacing-md      { margin-inline: var(--morph-space-4); }
+.vertical.spacing-lg      { margin-inline: var(--morph-space-5); }
+
+/* ─── Labeled divider ─────────────────────────────────────────────────────── */
+/*
+ * Pattern: line ──── LABEL ──── line
+ * Uses CSS flexbox + pseudo-elements so no extra DOM elements needed for lines.
+ * The `.divider` background is suppressed; lines are rendered via flex children
+ * using a shared border-color derived from the variant.
+ */
+.labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-3);
+  /* Override the solid background set by .horizontal */
+  background-color: transparent;
+  height: auto;
+}
+
+/* Left and right rule lines rendered as flex pseudo-elements */
+.labeled::before,
+.labeled::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--morph-color-border-subtle);
+}
+
+/* Variant adjustments for labeled lines */
+.labeled.subtle::before,
+.labeled.subtle::after {
+  background-color: color-mix(
+    in srgb,
+    var(--morph-color-border-subtle) 50%,
+    transparent
+  );
+}
+
+.labeled.strong::before,
+.labeled.strong::after {
+  background-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Label text ──────────────────────────────────────────────────────────── */
+.labelText {
+  flex-shrink: 0;
+  font-family: var(--morph-font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--morph-color-on-surface-muted);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* ─── No motion needed ────────────────────────────────────────────────────── */
+/*
+ * The Divider is a static structural element — it has no motion to suppress.
+ * The reduced-motion block is present for completeness / future safety.
+ */
+@media (prefers-reduced-motion: reduce) {
+  /* nothing to disable */
+}

@@ -1,0 +1,27 @@
+{
+  "color": {
+    "neutral": {
+      "1000": { "value": "#0C1119" }, "950": { "value": "#111A26" },
+      "900":  { "value": "#16212F" }, "850": { "value": "#1C2A3A" },
+      "800":  { "value": "#243446" }, "700": { "value": "#36495E" },
+      "600":  { "value": "#516577" }, "500": { "value": "#6F8392" },
+      "400":  { "value": "#94A1AB" }, "300": { "value": "#B9BDB4" },
+      "200":  { "value": "#D7D2C1" }, "150": { "value": "#E4DDC9" },
+      "100":  { "value": "#ECE6D4" }, "50":  { "value": "#F4EFE0" },
+      "0":    { "value": "#FAF7EE" }
+    },
+    "accent": {
+      "900": { "value": "#271A37" }, "800": { "value": "#3A2850" },
+      "700": { "value": "#50386B" }, "600": { "value": "#684E87" },
+      "500": { "value": "#8463A8" }, "400": { "value": "#9E81BE" },
+      "300": { "value": "#BAA2D3" }, "200": { "value": "#D3C4E4" },
+      "100": { "value": "#E9E0F2" }
+    },
+    "status": {
+      "danger":  { "value": "#C0584A" }, "danger-on-dark":  { "value": "#D06B5C" },
+      "warning": { "value": "#C7913F" }, "warning-on-dark": { "value": "#D5A24F" },
+      "success": { "value": "#5F9070" }, "success-on-dark": { "value": "#74A585" },
+      "info":    { "value": "#5E81A8" }, "info-on-dark":    { "value": "#7596BC" }
+    }
+  }
+}

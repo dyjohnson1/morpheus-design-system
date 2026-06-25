@@ -1,0 +1,187 @@
+.root {
+  font-family: var(--morph-font-ui);
+  color: var(--morph-color-on-surface);
+  background: var(--morph-color-surface-raised);
+  border-radius: var(--morph-radius-default);
+  padding: var(--morph-space-3) var(--morph-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-2);
+  transition:
+    background var(--morph-motion-duration-t2) var(--morph-ease-standard);
+}
+
+.root:hover {
+  background: var(--morph-color-surface);
+}
+
+/* ─── Header ────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--morph-space-2);
+}
+
+.indexBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 var(--morph-space-1);
+  border-radius: var(--morph-radius-default);
+  background: var(--morph-color-accent);
+  color: var(--morph-color-on-accent);
+  font-size: var(--morph-font-size-caption);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  color: var(--morph-color-on-surface-muted);
+  margin-top: 2px;
+}
+
+.icon :global(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Title group ───────────────────────────────────────────────────────── */
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--morph-space-1);
+  min-width: 0;
+  flex: 1;
+}
+
+.titleLink {
+  font-size: var(--morph-font-size-body-sm);
+  font-weight: 500;
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: transparent;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  transition:
+    color var(--morph-motion-duration-t2) var(--morph-ease-standard),
+    text-decoration-color var(--morph-motion-duration-t2) var(--morph-ease-standard);
+}
+
+.titleLink:hover {
+  text-decoration-color: currentColor;
+  color: var(--morph-color-accent);
+}
+
+.titleLink:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.sourceName {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  color: var(--morph-color-on-surface-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Snippet ───────────────────────────────────────────────────────────── */
+.snippet {
+  margin: 0;
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+  color: var(--morph-color-on-surface-muted);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* ─── Meta (type indicator) ─────────────────────────────────────────────── */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+}
+
+.typeIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  color: var(--morph-color-on-surface-muted);
+}
+
+.typeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.typeLabel {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+}
+
+/* ─── Density ───────────────────────────────────────────────────────────── */
+.root[data-density="compact"] {
+  padding: var(--morph-space-2) var(--morph-space-3);
+  gap: var(--morph-space-1);
+}
+
+.root[data-density="compact"] .indexBadge {
+  min-width: 20px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.root[data-density="compact"] .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.root[data-density="compact"] .titleLink {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+}
+
+.root[data-density="compact"] .sourceName {
+  font-size: 11px;
+}
+
+.root[data-density="compact"] .snippet {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  -webkit-line-clamp: 2;
+}
+
+.root[data-density="compact"] .typeLabel {
+  font-size: 11px;
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .titleLink {
+    transition: none;
+  }
+}

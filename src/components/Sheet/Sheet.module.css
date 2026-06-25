@@ -1,0 +1,327 @@
+/* ─── Sheet ────────────────────────────────────────────────────────────────── */
+/*
+ * Sliding panel overlay (drawer) from a screen edge.
+ * Built on Radix Dialog for accessible focus trap + dismiss behavior.
+ *
+ * Overlay: backdrop blur + tint (material system).
+ * Content: positioned along one edge, slides in from that side.
+ * Motion: productive/t4 entrance (slide from edge), t3 exit (slide out + fade).
+ * Reduced-motion: crossfade at t2 only.
+ *
+ * Surface: raised overlay with elevation-3 + subtle border.
+ * Tokens only — zero raw hex/px/ms.
+ */
+
+/* ─── Overlay ─────────────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: color-mix(in srgb, var(--morph-color-neutral-1000) 60%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  animation: overlayFadeIn var(--morph-motion-t3) var(--morph-ease-entrance);
+}
+
+.overlay[data-state="closed"] {
+  animation: overlayFadeOut var(--morph-motion-t2) var(--morph-ease-exit);
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes overlayFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ─── Content (shared) ────────────────────────────────────────────────────── */
+.content {
+  position: fixed;
+  z-index: 9999;
+
+  /* Surface */
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+  border-radius: 0;
+
+  /* Elevation */
+  box-shadow: var(--morph-elevation-3);
+
+  /* Spacing */
+  padding: var(--morph-space-6);
+
+  /* Typography */
+  font-family: var(--morph-font-ui);
+
+  /* Overflow */
+  overflow-y: auto;
+
+  will-change: transform, opacity;
+}
+
+/* ─── Side: right (default) ───────────────────────────────────────────────── */
+.right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: calc(100vw - var(--morph-space-8));
+  border-left: 1px solid var(--morph-color-border-subtle);
+
+  animation: slideInRight var(--morph-motion-t4) var(--morph-ease-entrance);
+}
+
+.right[data-state="closed"] {
+  animation: slideOutRight var(--morph-motion-t3) var(--morph-ease-exit);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* ─── Side: left ──────────────────────────────────────────────────────────── */
+.left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: calc(100vw - var(--morph-space-8));
+  border-right: 1px solid var(--morph-color-border-subtle);
+
+  animation: slideInLeft var(--morph-motion-t4) var(--morph-ease-entrance);
+}
+
+.left[data-state="closed"] {
+  animation: slideOutLeft var(--morph-motion-t3) var(--morph-ease-exit);
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* ─── Side: top ───────────────────────────────────────────────────────────── */
+.top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 320px;
+  max-height: calc(100vh - var(--morph-space-8));
+  border-bottom: 1px solid var(--morph-color-border-subtle);
+
+  animation: slideInTop var(--morph-motion-t4) var(--morph-ease-entrance);
+}
+
+.top[data-state="closed"] {
+  animation: slideOutTop var(--morph-motion-t3) var(--morph-ease-exit);
+}
+
+@keyframes slideInTop {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutTop {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* ─── Side: bottom ────────────────────────────────────────────────────────── */
+.bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 320px;
+  max-height: calc(100vh - var(--morph-space-8));
+  border-top: 1px solid var(--morph-color-border-subtle);
+
+  animation: slideInBottom var(--morph-motion-t4) var(--morph-ease-entrance);
+}
+
+.bottom[data-state="closed"] {
+  animation: slideOutBottom var(--morph-motion-t3) var(--morph-ease-exit);
+}
+
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutBottom {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* ─── Close button ────────────────────────────────────────────────────────── */
+.close {
+  position: absolute;
+  top: var(--morph-space-4);
+  right: var(--morph-space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  margin: calc(-1 * var(--morph-space-2));
+  border: none;
+  border-radius: var(--morph-radius-2);
+  background: transparent;
+  color: var(--morph-color-on-surface-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+.close:hover {
+  background: color-mix(in srgb, var(--morph-color-on-surface) 8%, transparent);
+  color: var(--morph-color-on-surface);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.close:active {
+  background: color-mix(in srgb, var(--morph-color-on-surface) 12%, transparent);
+}
+
+/* ─── Title ───────────────────────────────────────────────────────────────── */
+.title {
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-subtitle);
+  line-height: var(--morph-line-height-subtitle);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--morph-color-on-surface);
+  margin: 0 0 var(--morph-space-2) 0;
+  padding-right: var(--morph-space-6);
+}
+
+/* ─── Description ─────────────────────────────────────────────────────────── */
+.description {
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  font-weight: 400;
+  color: var(--morph-color-on-surface-muted);
+  margin: 0 0 var(--morph-space-5) 0;
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+    opacity: 1;
+  }
+
+  .overlay[data-state="closed"] {
+    animation: none;
+    opacity: 0;
+  }
+
+  .right,
+  .left,
+  .top,
+  .bottom {
+    animation: sheetFadeIn var(--morph-motion-t2) var(--morph-ease-standard);
+  }
+
+  .right[data-state="closed"],
+  .left[data-state="closed"],
+  .top[data-state="closed"],
+  .bottom[data-state="closed"] {
+    animation: sheetFadeOut var(--morph-motion-t2) var(--morph-ease-standard);
+  }
+
+  .close {
+    transition: none;
+  }
+}
+
+@keyframes sheetFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sheetFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ─── Reduced-transparency ────────────────────────────────────────────────── */
+@media (prefers-reduced-transparency: reduce) {
+  .overlay {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--morph-color-neutral-1000);
+    opacity: 0.85;
+  }
+}

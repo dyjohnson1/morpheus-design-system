@@ -1,0 +1,229 @@
+/*
+ * Tag / Chip
+ *
+ * Modes:
+ *   - Filter chip (toggle): selected state, aria-pressed
+ *   - Removable tag: × dismiss button
+ *
+ * Variants: neutral · accent · success · warning · danger · info
+ * Sizes: sm · md (default, comfortable)
+ *
+ * Color is always paired with icon or text — never the sole signal.
+ * Tokens only — zero raw hex/px/ms.
+ *
+ * Motion: productive register (t2), transitions on background/border/color.
+ * Reduced-motion: transitions disabled.
+ */
+
+/* ─── Base tag ───────────────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  border-radius: var(--morph-radius-full);
+  border: 1px solid transparent;
+  font-family: var(--morph-font-ui);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  /* reset button defaults */
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  text-align: center;
+  /* productive motion — t2 on color/border */
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard),
+    border-color var(--morph-motion-t2) var(--morph-ease-standard),
+    color var(--morph-motion-t2) var(--morph-ease-standard),
+    transform var(--morph-motion-t1) var(--morph-ease-standard);
+  /* density — consumes control tokens */
+  min-height: var(--morph-control-height);
+}
+
+.tag:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+.tag:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────────────────── */
+.sm {
+  padding: 2px var(--morph-space-2);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  min-height: 24px;
+}
+
+.md {
+  padding: 3px var(--morph-space-3);
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  min-height: var(--morph-control-height);
+}
+
+/* ─── Disabled ───────────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Selected state (shared, overlaid on top of variant) ───────────────── */
+/*
+ * Selected ring uses the accent focus color so it's visible across all
+ * variant backgrounds. The background gets a stronger tint.
+ */
+.selected {
+  border-color: var(--morph-color-focus);
+  box-shadow: inset 0 0 0 1px var(--morph-color-focus);
+}
+
+/* ─── Neutral (default) ──────────────────────────────────────────────────── */
+.neutral {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+  border-color: var(--morph-color-border-subtle);
+}
+.neutral:hover:not(:disabled) {
+  border-color: var(--morph-color-on-surface-muted);
+  background: color-mix(in srgb, var(--morph-color-surface-raised) 90%, var(--morph-color-on-surface) 10%);
+}
+.neutral.selected {
+  background: color-mix(in srgb, var(--morph-color-focus) 14%, var(--morph-color-surface-raised));
+}
+
+/* ─── Accent ─────────────────────────────────────────────────────────────── */
+.accent {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 12%, transparent);
+  color: var(--morph-color-accent-text);
+  border-color: color-mix(in srgb, var(--morph-color-accent-text) 25%, transparent);
+}
+.accent:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 20%, transparent);
+}
+.accent.selected {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 28%, transparent);
+}
+
+/* ─── Success ────────────────────────────────────────────────────────────── */
+.success {
+  background: color-mix(in srgb, var(--morph-status-success-text) 12%, transparent);
+  color: var(--morph-status-success-text);
+  border-color: color-mix(in srgb, var(--morph-status-success-text) 25%, transparent);
+}
+.success:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-status-success-text) 20%, transparent);
+}
+.success.selected {
+  background: color-mix(in srgb, var(--morph-status-success-text) 28%, transparent);
+}
+
+/* ─── Warning ────────────────────────────────────────────────────────────── */
+.warning {
+  background: color-mix(in srgb, var(--morph-status-warning-text) 12%, transparent);
+  color: var(--morph-status-warning-text);
+  border-color: color-mix(in srgb, var(--morph-status-warning-text) 25%, transparent);
+}
+.warning:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-status-warning-text) 20%, transparent);
+}
+.warning.selected {
+  background: color-mix(in srgb, var(--morph-status-warning-text) 28%, transparent);
+}
+
+/* ─── Danger ─────────────────────────────────────────────────────────────── */
+.danger {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 12%, transparent);
+  color: var(--morph-status-danger-text);
+  border-color: color-mix(in srgb, var(--morph-status-danger-text) 25%, transparent);
+}
+.danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 20%, transparent);
+}
+.danger.selected {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 28%, transparent);
+}
+
+/* ─── Info ───────────────────────────────────────────────────────────────── */
+.info {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 12%, transparent);
+  color: var(--morph-color-accent-text);
+  border-color: color-mix(in srgb, var(--morph-color-accent-text) 25%, transparent);
+}
+.info:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 20%, transparent);
+}
+.info.selected {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 28%, transparent);
+}
+
+/* ─── Leading icon ───────────────────────────────────────────────────────── */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.icon :global(svg) {
+  width: 14px;
+  height: 14px;
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  line-height: 1;
+}
+
+/* ─── Remove button ──────────────────────────────────────────────────────── */
+/*
+ * The × sits inside the chip; it uses a nested <button> which inherits
+ * context from the outer chip. tabIndex=-1 keeps tab focus on the chip
+ * itself; keyboard users remove with the chip focused (no extra stop).
+ * The × gets its own focus ring for pointer/AT users.
+ */
+.remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin-left: var(--morph-space-1);
+  border: none;
+  border-radius: var(--morph-radius-full);
+  background: transparent;
+  color: currentColor;
+  opacity: 0.7;
+  cursor: pointer;
+  flex: none;
+  transition:
+    opacity var(--morph-motion-t1) var(--morph-ease-standard),
+    background-color var(--morph-motion-t1) var(--morph-ease-standard);
+}
+.remove:hover {
+  opacity: 1;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.remove:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 1px;
+  opacity: 1;
+}
+.remove :global(svg) {
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+
+/* ─── Reduced-motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tag,
+  .remove {
+    transition: none;
+  }
+}

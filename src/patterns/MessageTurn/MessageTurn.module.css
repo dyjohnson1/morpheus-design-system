@@ -1,0 +1,125 @@
+/* MessageTurn — conversation turn container.
+ * Differentiates user/assistant by surface tonality + alignment, not bubbles.
+ * Token-first · density-aware · reduced-motion safe.
+ */
+
+.root {
+  display: flex;
+  gap: var(--morph-space-3);
+  width: 100%;
+  padding: var(--morph-space-3) var(--morph-space-4);
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body);
+  line-height: var(--morph-line-height-body);
+  color: var(--morph-color-on-surface);
+  transition: background-color var(--morph-duration-t3) var(--morph-ease-standard);
+}
+
+/* Alignment: user = end, assistant = start */
+.root[data-role="user"] {
+  flex-direction: row-reverse;
+}
+.root[data-role="assistant"] {
+  flex-direction: row;
+}
+
+/* Surface tonality differentiation */
+.root[data-role="user"] .body {
+  background: var(--morph-color-surface-raised);
+  border-radius: var(--morph-radius-md);
+}
+.root[data-role="assistant"] .body {
+  background: var(--morph-color-surface);
+  border-radius: var(--morph-radius-md);
+}
+
+/* Error state */
+.root[data-status="error"] .body {
+  border-left: var(--morph-space-1) solid var(--morph-status-danger-text);
+}
+
+/* Avatar slot */
+.avatar {
+  flex: none;
+  align-self: flex-start;
+  margin-top: var(--morph-space-1);
+}
+
+/* Body = content + footer */
+.body {
+  flex: 1;
+  min-width: 0;
+  max-width: 80%;
+  padding: var(--morph-space-3) var(--morph-space-4);
+}
+
+/* Content area */
+.content {
+  /* Let children handle their own typography */
+}
+
+/* Footer: timestamp + actions */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-3);
+  margin-top: var(--morph-space-2);
+}
+
+.timestamp {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  color: var(--morph-color-on-surface-muted);
+}
+
+.statusText {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  color: var(--morph-color-on-surface-muted);
+}
+
+.root[data-status="error"] .statusText {
+  color: var(--morph-status-danger-text);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+  margin-left: auto;
+}
+
+/* Density: compact */
+.root[data-density="compact"] {
+  padding: var(--morph-space-2) var(--morph-space-3);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+}
+
+.root[data-density="compact"] .body {
+  padding: var(--morph-space-2) var(--morph-space-3);
+}
+
+.root[data-density="compact"] .footer {
+  margin-top: var(--morph-space-1);
+}
+
+/* Streaming pulse indicator on the body */
+.root[data-status="streaming"] .body {
+  animation: streamPulse 1.6s var(--morph-ease-standard) infinite;
+}
+
+@keyframes streamPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* Reduced motion: disable all non-essential animation */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+  .root[data-status="streaming"] .body {
+    animation: none;
+  }
+}

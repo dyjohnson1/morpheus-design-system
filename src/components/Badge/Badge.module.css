@@ -1,0 +1,124 @@
+/* ─── Badge ───────────────────────────────────────────────────────────────── */
+/*
+ * Three modes: label · count · dot.
+ * Overlay mode: positioned over a child via `.wrapper`.
+ *
+ * Variants: neutral · accent · success · warning · danger · info.
+ * Color is always paired with icon or text (never the sole signal).
+ * Tokens only — zero raw hex/px/ms.
+ *
+ * Motion: fade-in on mount (productive register, t2).
+ * Reduced-motion: no animation.
+ */
+
+/* ─── Wrapper (overlay mode) ─────────────────────────────────────────────── */
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+/* ─── Base badge ─────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--morph-space-1);
+  padding: 2px var(--morph-space-2);
+  border-radius: var(--morph-radius-full);
+  font-family: var(--morph-font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  /* productive motion — fade in when badge appears */
+  transition: opacity var(--morph-motion-t2) var(--morph-ease-standard);
+  /* neutral default */
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+  border: 1px solid var(--morph-color-border-subtle);
+}
+
+/* ─── Count variant — compact round pill ─────────────────────────────────── */
+.countBadge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--morph-space-1);
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* ─── Dot variant — label-less presence indicator ────────────────────────── */
+.dotBadge {
+  width: 8px;
+  height: 8px;
+  min-width: 0;
+  padding: 0;
+  border-width: 1.5px;
+  /* override line-height so the dot stays perfectly round */
+  font-size: 0;
+  line-height: 0;
+}
+
+/* ─── Overlay positioning ────────────────────────────────────────────────── */
+/*
+ * When a count or dot badge is placed over a child element it sits in the
+ * top-right corner, partially overlapping the child. A white-space border
+ * (using the surface color) separates the badge from the content beneath.
+ */
+.overlayBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  /* Separation halo — uses surface color so it works on any background */
+  box-shadow: 0 0 0 2px var(--morph-color-surface);
+  /* Don't inherit the inline wrapper className */
+  z-index: 1;
+}
+
+/* ─── Status variants ─────────────────────────────────────────────────────── */
+/*
+ * Each variant is a tinted surface + matching text + tinted border.
+ * color-mix derives the tint from the status token so no raw hex appears.
+ * Status is always paired with an icon or text label (never color alone).
+ */
+
+/* neutral is the default (.badge base above) */
+
+.accent {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 12%, transparent);
+  color: var(--morph-color-accent-text);
+  border-color: color-mix(in srgb, var(--morph-color-accent-text) 25%, transparent);
+}
+
+.success {
+  background: color-mix(in srgb, var(--morph-status-success-text) 12%, transparent);
+  color: var(--morph-status-success-text);
+  border-color: color-mix(in srgb, var(--morph-status-success-text) 25%, transparent);
+}
+
+.warning {
+  background: color-mix(in srgb, var(--morph-status-warning-text) 12%, transparent);
+  color: var(--morph-status-warning-text);
+  border-color: color-mix(in srgb, var(--morph-status-warning-text) 25%, transparent);
+}
+
+.danger {
+  background: color-mix(in srgb, var(--morph-status-danger-text) 12%, transparent);
+  color: var(--morph-status-danger-text);
+  border-color: color-mix(in srgb, var(--morph-status-danger-text) 25%, transparent);
+}
+
+.info {
+  background: color-mix(in srgb, var(--morph-color-accent-text) 12%, transparent);
+  color: var(--morph-color-accent-text);
+  border-color: color-mix(in srgb, var(--morph-color-accent-text) 25%, transparent);
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+}

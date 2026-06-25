@@ -1,0 +1,77 @@
+/* Reference output — normally generated into build/ by `npm run tokens`.
+   Committed here so the reference component renders out of the box. */
+:root {
+  /* neutral */
+  --morph-color-neutral-1000:#0C1119; --morph-color-neutral-950:#111A26;
+  --morph-color-neutral-900:#16212F; --morph-color-neutral-850:#1C2A3A;
+  --morph-color-neutral-800:#243446; --morph-color-neutral-700:#36495E;
+  --morph-color-neutral-600:#516577; --morph-color-neutral-500:#6F8392;
+  --morph-color-neutral-400:#94A1AB; --morph-color-neutral-300:#B9BDB4;
+  --morph-color-neutral-200:#D7D2C1; --morph-color-neutral-150:#E4DDC9;
+  --morph-color-neutral-100:#ECE6D4; --morph-color-neutral-50:#F4EFE0;
+  --morph-color-neutral-0:#FAF7EE;
+  /* accent */
+  --morph-color-accent-900:#271A37; --morph-color-accent-800:#3A2850;
+  --morph-color-accent-700:#50386B; --morph-color-accent-600:#684E87;
+  --morph-color-accent-500:#8463A8; --morph-color-accent-400:#9E81BE;
+  --morph-color-accent-300:#BAA2D3; --morph-color-accent-200:#D3C4E4;
+  --morph-color-accent-100:#E9E0F2;
+  /* status */
+  --morph-color-danger:#C0584A;  --morph-color-danger-on-dark:#D06B5C;
+  --morph-color-warning:#C7913F; --morph-color-warning-on-dark:#D5A24F;
+  --morph-color-success:#5F9070; --morph-color-success-on-dark:#74A585;
+  --morph-color-info:#5E81A8;    --morph-color-info-on-dark:#7596BC;
+
+  /* alias — DARK (default) */
+  --morph-color-ground:var(--morph-color-neutral-1000);
+  --morph-color-surface:var(--morph-color-neutral-900);
+  --morph-color-surface-raised:var(--morph-color-neutral-800);
+  --morph-color-surface-overlay:var(--morph-color-neutral-850);
+  --morph-color-on-surface:var(--morph-color-neutral-50);
+  --morph-color-on-surface-muted:var(--morph-color-neutral-400);
+  --morph-color-border-subtle:var(--morph-color-neutral-700);
+  --morph-color-accent:var(--morph-color-accent-500);
+  --morph-color-accent-text:var(--morph-color-accent-300);
+  --morph-color-on-accent:var(--morph-color-neutral-0);
+  --morph-color-focus:var(--morph-color-accent-400);
+  --morph-status-danger-text:var(--morph-color-danger-on-dark);
+  --morph-status-warning-text:var(--morph-color-warning-on-dark);
+  --morph-status-success-text:var(--morph-color-success-on-dark);
+
+  /* space / radius */
+  --morph-space-1:4px; --morph-space-2:8px; --morph-space-3:12px; --morph-space-4:16px;
+  --morph-space-5:24px; --morph-space-6:32px; --morph-space-7:48px; --morph-space-8:64px;
+  --morph-radius-1:6px; --morph-radius-2:10px; --morph-radius-3:16px; --morph-radius-4:24px;
+  --morph-radius-full:9999px;
+  /* motion */
+  --morph-motion-t1:80ms; --morph-motion-t2:140ms; --morph-motion-t3:220ms;
+  --morph-motion-t4:320ms; --morph-motion-t5:480ms;
+  --morph-ease-standard:cubic-bezier(0.2,0,0.38,0.9);
+  --morph-ease-entrance:cubic-bezier(0,0,0.38,0.9);
+  --morph-ease-exit:cubic-bezier(0.2,0,1,0.9);
+  /* type */
+  --morph-font-ui:Inter,system-ui,sans-serif;
+  --morph-font-mono:'Berkeley Mono','JetBrains Mono',monospace;
+  /* density (comfortable default) */
+  --morph-control-height:44px; --morph-control-pad-x:16px;
+}
+[data-theme="light"] {
+  --morph-color-ground:var(--morph-color-neutral-50);
+  --morph-color-surface:var(--morph-color-neutral-0);
+  --morph-color-surface-raised:var(--morph-color-neutral-100);
+  --morph-color-surface-overlay:var(--morph-color-neutral-0);
+  --morph-color-on-surface:var(--morph-color-neutral-1000);
+  --morph-color-on-surface-muted:var(--morph-color-neutral-600);
+  --morph-color-border-subtle:var(--morph-color-neutral-200);
+  --morph-color-accent:var(--morph-color-accent-600);
+  --morph-color-accent-text:var(--morph-color-accent-700);
+  --morph-color-focus:var(--morph-color-accent-600);
+  --morph-status-danger-text:var(--morph-color-danger);
+  --morph-status-warning-text:var(--morph-color-warning);
+  --morph-status-success-text:var(--morph-color-success);
+}
+[data-density="compact"] { --morph-control-height:32px; --morph-control-pad-x:12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --morph-motion-t1:0ms; --morph-motion-t3:0ms; --morph-motion-t4:0ms; --morph-motion-t5:0ms; }
+}

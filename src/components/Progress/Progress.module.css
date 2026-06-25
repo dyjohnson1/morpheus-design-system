@@ -1,0 +1,151 @@
+/* ─── Progress ─────────────────────────────────────────────────────────────── */
+/*
+ * Determinate (value 0–100) + indeterminate (continuous animation).
+ * Shapes: linear (horizontal bar) · circular (ring/spinner).
+ * Sizes: comfortable · compact (density-aware).
+ *
+ * Motion: productive register, t3 for fill transitions; continuous
+ * animations for indeterminate mode. Reduced-motion: static fallback.
+ *
+ * Tokens only — zero raw hex/px/ms.
+ */
+
+/* ─── Base wrapper ────────────────────────────────────────────────────────── */
+.progress {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+  font-family: var(--morph-font-ui);
+}
+
+/* ─── Linear shape ────────────────────────────────────────────────────────── */
+.linear {
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  gap: var(--morph-space-1);
+}
+
+/* ─── Track (linear) ──────────────────────────────────────────────────────── */
+.track {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--morph-radius-full);
+  background: var(--morph-color-surface-raised);
+}
+
+/* Comfortable: 8px track height */
+.comfortable .track {
+  height: var(--morph-space-2);
+}
+
+/* Compact: 4px track height */
+.compact .track {
+  height: var(--morph-space-1);
+}
+
+/* ─── Fill (linear) ───────────────────────────────────────────────────────── */
+.fill {
+  height: 100%;
+  border-radius: var(--morph-radius-full);
+  background: var(--morph-color-accent);
+  transition: width var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+/* Indeterminate linear: sliding fill animation */
+.indeterminate .fill {
+  width: 40%;
+  animation: indeterminate-slide 1.5s var(--morph-ease-standard) infinite;
+}
+
+@keyframes indeterminate-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+/* ─── Circular shape ──────────────────────────────────────────────────────── */
+.circular {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--morph-space-2);
+}
+
+/* ─── Ring SVG ────────────────────────────────────────────────────────────── */
+.ring {
+  display: block;
+  flex-shrink: 0;
+}
+
+.ringTrack {
+  stroke: var(--morph-color-surface-raised);
+}
+
+.ringFill {
+  stroke: var(--morph-color-accent);
+  transition: stroke-dashoffset var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+/* Indeterminate circular: continuous spin */
+.indeterminate .ring {
+  animation: indeterminate-spin 1.2s linear infinite;
+}
+
+/* For indeterminate circular, show a partial arc */
+.indeterminate .ringFill {
+  stroke-dashoffset: 60%;
+  transition: none;
+}
+
+@keyframes indeterminate-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+.label {
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* Visually hidden but accessible to screen readers */
+.labelHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+
+  .ringFill {
+    transition: none;
+  }
+
+  /* Indeterminate linear: static partial fill, no animation */
+  .indeterminate .fill {
+    animation: none;
+    transform: none;
+    width: 40%;
+  }
+
+  /* Indeterminate circular: no spin, static partial arc */
+  .indeterminate .ring {
+    animation: none;
+  }
+}

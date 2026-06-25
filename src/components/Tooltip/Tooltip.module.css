@@ -1,0 +1,100 @@
+/* ─── Tooltip ─────────────────────────────────────────────────────────────── */
+/*
+ * Informational overlay surface triggered by hover/focus.
+ * Entrance: productive/t2 (140ms) — scale from 0.96 + fade.
+ * Exit: t1 (80ms) — fade out only.
+ * Reduced-motion: instant opacity, no transform.
+ *
+ * Surface: overlay tonal fill with subtle border, small radius.
+ * Text: label size, on-surface color.
+ * Arrow: matches surface fill.
+ */
+
+.content {
+  /* Surface */
+  background: var(--morph-color-surface-overlay);
+  color: var(--morph-color-on-surface);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-1);
+
+  /* Typography — label size */
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-label);
+  line-height: var(--morph-line-height-label);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+
+  /* Spacing — density-aware */
+  padding: var(--morph-space-1) var(--morph-space-2);
+  max-width: 240px;
+  word-wrap: break-word;
+
+  /* Elevation */
+  box-shadow: var(--morph-elevation-2);
+
+  /* Animation — productive/t2 entrance */
+  animation-duration: var(--morph-motion-t2);
+  animation-timing-function: var(--morph-ease-entrance);
+  animation-fill-mode: forwards;
+
+  /* Radix data-state + data-side drive open/close animations */
+  will-change: transform, opacity;
+}
+
+/* ─── Entrance animation ──────────────────────────────────────────────────── */
+.content[data-state="delayed-open"],
+.content[data-state="instant-open"] {
+  animation-name: tooltipEnter;
+}
+
+/* ─── Exit animation ──────────────────────────────────────────────────────── */
+.content[data-state="closed"] {
+  animation-name: tooltipExit;
+  animation-duration: var(--morph-motion-t1);
+  animation-timing-function: var(--morph-ease-exit);
+}
+
+@keyframes tooltipEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tooltipExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* ─── Arrow ───────────────────────────────────────────────────────────────── */
+.arrow {
+  fill: var(--morph-color-surface-overlay);
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    animation: none;
+  }
+
+  .content[data-state="delayed-open"],
+  .content[data-state="instant-open"] {
+    animation: none;
+    opacity: 1;
+  }
+
+  .content[data-state="closed"] {
+    animation: none;
+    opacity: 0;
+  }
+}

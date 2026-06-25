@@ -1,0 +1,128 @@
+/* ─── Switch ──────────────────────────────────────────────────────────────── */
+/*
+ * Accessible toggle switch with Radix primitive.
+ * States: unchecked, checked, hover, focus, disabled.
+ * Density: comfortable (36×20 track) / compact (28×16 track).
+ * Tokens only — zero raw hex/px/ms.
+ * Motion: productive register (t2), transitions on background and thumb translate.
+ * Reduced-motion: transitions disabled.
+ */
+
+/* ─── Wrapper (switch + label inline) ────────────────────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+}
+
+/* ─── Root (the track) ───────────────────────────────────────────────────── */
+.root {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: var(--morph-radius-full);
+  background-color: var(--morph-color-border-subtle);
+  cursor: pointer;
+  position: relative;
+  transition:
+    background-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* ─── Density sizes ──────────────────────────────────────────────────────── */
+.comfortable {
+  width: var(--morph-space-9, 36px);
+  height: var(--morph-space-5, 20px);
+  padding: var(--morph-space-half, 2px);
+}
+
+.compact {
+  width: var(--morph-space-7, 28px);
+  height: var(--morph-space-4, 16px);
+  padding: var(--morph-space-half, 2px);
+}
+
+/* ─── Hover ──────────────────────────────────────────────────────────────── */
+.root:hover:not(.disabled) {
+  background-color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Checked hover ──────────────────────────────────────────────────────── */
+.root[data-state="checked"]:hover:not(.disabled) {
+  background-color: var(--morph-color-accent);
+}
+
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
+.root:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Checked state ──────────────────────────────────────────────────────── */
+.root[data-state="checked"] {
+  background-color: var(--morph-color-accent);
+}
+
+/* ─── Disabled state ─────────────────────────────────────────────────────── */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Thumb ──────────────────────────────────────────────────────────────── */
+.thumb {
+  display: block;
+  border-radius: var(--morph-radius-full);
+  background-color: var(--morph-color-on-accent);
+  transition:
+    transform var(--morph-motion-t2) var(--morph-ease-standard);
+  will-change: transform;
+}
+
+/* ─── Thumb sizes (comfortable) ──────────────────────────────────────────── */
+.comfortable .thumb {
+  width: var(--morph-space-4, 16px);
+  height: var(--morph-space-4, 16px);
+}
+
+/* ─── Thumb sizes (compact) ──────────────────────────────────────────────── */
+.compact .thumb {
+  width: var(--morph-space-3, 12px);
+  height: var(--morph-space-3, 12px);
+}
+
+/* ─── Thumb translate when checked ───────────────────────────────────────── */
+.comfortable .thumb[data-state="checked"] {
+  transform: translateX(var(--morph-space-4, 16px));
+}
+
+.compact .thumb[data-state="checked"] {
+  transform: translateX(var(--morph-space-3, 12px));
+}
+
+/* ─── Label ──────────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body, 16px);
+  line-height: var(--morph-line-height-body, 1.625);
+  color: var(--morph-color-on-surface);
+  cursor: pointer;
+  user-select: none;
+}
+
+.labelDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: none;
+  }
+
+  .thumb {
+    transition: none;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "morph": {
+    "color": {
+      "ground":            { "value": "{color.neutral.1000}" },
+      "surface":           { "value": "{color.neutral.900}" },
+      "surface-raised":    { "value": "{color.neutral.800}" },
+      "surface-overlay":   { "value": "{color.neutral.850}" },
+      "on-surface":        { "value": "{color.neutral.50}" },
+      "on-surface-muted":  { "value": "{color.neutral.400}" },
+      "border-subtle":     { "value": "{color.neutral.700}" },
+      "accent":            { "value": "{color.accent.500}" },
+      "accent-text":       { "value": "{color.accent.300}" },
+      "on-accent":         { "value": "{color.neutral.0}" },
+      "focus":             { "value": "{color.accent.400}" }
+    }
+  }
+}

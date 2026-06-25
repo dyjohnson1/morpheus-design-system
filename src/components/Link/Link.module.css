@@ -1,0 +1,93 @@
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--morph-space-1);
+  font-family: var(--morph-font-ui);
+  font-size: inherit; /* inherits body context */
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+  border-radius: var(--morph-radius-1);
+  transition:
+    color var(--morph-motion-t2) var(--morph-ease-standard),
+    text-decoration-color var(--morph-motion-t2) var(--morph-ease-standard);
+}
+
+/* Focus ring — WCAG 2.2 focus-not-obscured + 3:1 contrast requirement */
+.link:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Variants ───────────────────────────────────────────────────────────────
+   All use alias tokens; never raw color values.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* default — on-surface; underline slightly muted at rest, full on hover */
+.default {
+  color: var(--morph-color-on-surface);
+  text-decoration-color: color-mix(in srgb, var(--morph-color-on-surface) 40%, transparent);
+}
+.default:hover {
+  color: var(--morph-color-on-surface);
+  text-decoration-color: var(--morph-color-on-surface);
+}
+.default:visited {
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* muted — secondary references, footnotes */
+.muted {
+  color: var(--morph-color-on-surface-muted);
+  text-decoration-color: color-mix(in srgb, var(--morph-color-on-surface-muted) 40%, transparent);
+}
+.muted:hover {
+  color: var(--morph-color-on-surface);
+  text-decoration-color: var(--morph-color-on-surface-muted);
+}
+
+/* accent — one high-emphasis inline action (plum as light source, sparingly) */
+.accent {
+  color: var(--morph-color-accent-text);
+  text-decoration-color: color-mix(in srgb, var(--morph-color-accent-text) 40%, transparent);
+}
+.accent:hover {
+  color: var(--morph-color-accent-text);
+  text-decoration-color: var(--morph-color-accent-text);
+}
+
+/* ─── No-underline modifier ──────────────────────────────────────────────── */
+.noUnderline {
+  text-decoration: none;
+}
+.noUnderline:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ─── External link icon ─────────────────────────────────────────────────── */
+.externalIcon {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+.externalIcon svg {
+  /* Scale with text — em keeps it proportional */
+  width: 0.875em;
+  height: 0.875em;
+}
+
+/* ─── Active press state ─────────────────────────────────────────────────── */
+.link:active {
+  opacity: 0.75;
+}
+
+/* ─── Reduced-motion fallback ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
+}

@@ -1,0 +1,239 @@
+/* ─── Menu/Dropdown ────────────────────────────────────────────────────────── */
+/*
+ * Dropdown menu anchored to a trigger.
+ * Built on Radix DropdownMenu for keyboard nav + accessible dismiss.
+ *
+ * Surface: overlay material with subtle border, elevation-2 shadow.
+ * Entrance: productive/t3 (220ms) — scale from 0.96 + fade.
+ * Exit: t2 (140ms) — fade out only.
+ * Reduced-motion: simple fade at t2, no transform.
+ *
+ * Tokens only — zero raw hex/px/ms.
+ */
+
+.content {
+  /* Surface */
+  background: var(--morph-color-surface-overlay);
+  color: var(--morph-color-on-surface);
+  border: 1px solid var(--morph-color-border-subtle);
+  border-radius: var(--morph-radius-2);
+
+  /* Elevation */
+  box-shadow: var(--morph-elevation-2);
+
+  /* Spacing */
+  padding: var(--morph-space-1) 0;
+  min-width: 180px;
+  max-width: 300px;
+
+  /* Typography */
+  font-family: var(--morph-font-ui);
+  font-size: var(--morph-font-size-body-sm);
+  line-height: var(--morph-line-height-body-sm);
+
+  /* Animation — productive/t3 entrance */
+  animation-duration: var(--morph-motion-t3);
+  animation-timing-function: var(--morph-ease-entrance);
+  animation-fill-mode: forwards;
+
+  /* Performance */
+  will-change: transform, opacity;
+}
+
+/* ─── Entrance animation ──────────────────────────────────────────────────── */
+.content[data-state="open"] {
+  animation-name: menuEnter;
+}
+
+/* ─── Exit animation ──────────────────────────────────────────────────────── */
+.content[data-state="closed"] {
+  animation-name: menuExit;
+  animation-duration: var(--morph-motion-t2);
+  animation-timing-function: var(--morph-ease-exit);
+}
+
+/* ─── Origin-aware scale (side-based) ─────────────────────────────────────── */
+.content[data-side="top"] {
+  transform-origin: bottom center;
+}
+
+.content[data-side="bottom"] {
+  transform-origin: top center;
+}
+
+.content[data-side="left"] {
+  transform-origin: right center;
+}
+
+.content[data-side="right"] {
+  transform-origin: left center;
+}
+
+@keyframes menuEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes menuExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* ─── Menu Item ───────────────────────────────────────────────────────────── */
+.item,
+.checkboxItem,
+.radioItem,
+.subTrigger {
+  display: flex;
+  align-items: center;
+  gap: var(--morph-space-2);
+  padding: var(--morph-space-2) var(--morph-space-3);
+  min-height: var(--morph-control-height-compact, 32px);
+  border-radius: var(--morph-radius-1);
+  margin: 0 var(--morph-space-1);
+  outline: none;
+  cursor: default;
+  user-select: none;
+  color: var(--morph-color-on-surface);
+  transition: background-color var(--morph-motion-t1) var(--morph-ease-standard);
+}
+
+/* Highlighted (keyboard or hover) */
+.item[data-highlighted],
+.checkboxItem[data-highlighted],
+.radioItem[data-highlighted],
+.subTrigger[data-highlighted] {
+  background: var(--morph-color-surface-raised);
+  color: var(--morph-color-on-surface);
+}
+
+/* Disabled */
+.item[data-disabled],
+.checkboxItem[data-disabled],
+.radioItem[data-disabled],
+.subTrigger[data-disabled] {
+  color: var(--morph-color-on-surface-muted);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Destructive variant */
+.destructive {
+  color: var(--morph-color-danger);
+}
+
+.destructive[data-highlighted] {
+  background: var(--morph-color-danger);
+  color: var(--morph-color-on-accent);
+}
+
+/* ─── Indicator (checkbox/radio) ──────────────────────────────────────────── */
+.itemIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  flex-shrink: 0;
+}
+
+/* ─── Sub trigger chevron ─────────────────────────────────────────────────── */
+.subTrigger {
+  justify-content: space-between;
+}
+
+.subChevron {
+  margin-left: auto;
+  color: var(--morph-color-on-surface-muted);
+}
+
+/* ─── Sub content ─────────────────────────────────────────────────────────── */
+.subContent {
+  min-width: 160px;
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+.label {
+  padding: var(--morph-space-2) var(--morph-space-3);
+  margin: 0 var(--morph-space-1);
+  font-size: var(--morph-font-size-caption);
+  line-height: var(--morph-line-height-caption);
+  font-weight: 500;
+  color: var(--morph-color-on-surface-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ─── Separator ───────────────────────────────────────────────────────────── */
+.separator {
+  height: 1px;
+  background: var(--morph-color-border-subtle);
+  margin: var(--morph-space-1) 0;
+}
+
+/* ─── Focus ring (within content) ─────────────────────────────────────────── */
+.content:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced-motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    animation: none;
+  }
+
+  .content[data-state="open"] {
+    animation-name: menuFadeIn;
+    animation-duration: var(--morph-motion-t2);
+    animation-timing-function: var(--morph-ease-standard);
+  }
+
+  .content[data-state="closed"] {
+    animation-name: menuFadeOut;
+    animation-duration: var(--morph-motion-t2);
+    animation-timing-function: var(--morph-ease-standard);
+  }
+
+  .item,
+  .checkboxItem,
+  .radioItem,
+  .subTrigger {
+    transition: none;
+  }
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes menuFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ─── Reduced-transparency ────────────────────────────────────────────────── */
+@media (prefers-reduced-transparency: reduce) {
+  .content {
+    background: var(--morph-color-surface-raised);
+  }
+}

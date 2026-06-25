@@ -1,0 +1,66 @@
+/* ─── Card layout ──────────────────────────────────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: var(--morph-space-4) var(--morph-space-5);
+  border-bottom: 1px solid var(--morph-color-border-subtle);
+  font-family: var(--morph-font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--morph-color-on-surface);
+  flex: none;
+}
+
+.body {
+  padding: var(--morph-space-5);
+  flex: 1;
+  font-family: var(--morph-font-ui);
+  font-size: 16px;
+  color: var(--morph-color-on-surface);
+}
+
+.footer {
+  padding: var(--morph-space-4) var(--morph-space-5);
+  border-top: 1px solid var(--morph-color-border-subtle);
+  font-family: var(--morph-font-ui);
+  font-size: 14px;
+  color: var(--morph-color-on-surface-muted);
+  flex: none;
+}
+
+/* ─── Interactive card ─────────────────────────────────────────────────────── */
+.interactive {
+  cursor: pointer;
+  transition:
+    transform var(--morph-motion-t2) var(--morph-ease-standard),
+    box-shadow var(--morph-motion-t3) var(--morph-ease-standard);
+}
+
+.interactive:hover:not([data-disabled]) {
+  transform: translateY(-1px);
+}
+
+.interactive:active:not([data-disabled]) {
+  transform: translateY(0) scale(0.99);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--morph-color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive {
+    transition: none;
+  }
+  .interactive:hover:not([data-disabled]) {
+    transform: none;
+  }
+  .interactive:active:not([data-disabled]) {
+    transform: none;
+  }
+}
